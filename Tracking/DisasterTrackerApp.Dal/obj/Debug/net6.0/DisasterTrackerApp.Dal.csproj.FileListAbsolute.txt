@@ -1,0 +1,15 @@
+E:\Subjects\MyProject\DisasterTrackerApp\DisasterTrackerApp\Tracking\DisasterTrackerApp.Dal\bin\Debug\net6.0\DisasterTrackerApp.Dal.deps.json
+E:\Subjects\MyProject\DisasterTrackerApp\DisasterTrackerApp\Tracking\DisasterTrackerApp.Dal\bin\Debug\net6.0\DisasterTrackerApp.Dal.dll
+E:\Subjects\MyProject\DisasterTrackerApp\DisasterTrackerApp\Tracking\DisasterTrackerApp.Dal\bin\Debug\net6.0\ref\DisasterTrackerApp.Dal.dll
+E:\Subjects\MyProject\DisasterTrackerApp\DisasterTrackerApp\Tracking\DisasterTrackerApp.Dal\bin\Debug\net6.0\DisasterTrackerApp.Dal.pdb
+E:\Subjects\MyProject\DisasterTrackerApp\DisasterTrackerApp\Tracking\DisasterTrackerApp.Dal\bin\Debug\net6.0\DisasterTrackerApp.Entities.dll
+E:\Subjects\MyProject\DisasterTrackerApp\DisasterTrackerApp\Tracking\DisasterTrackerApp.Dal\bin\Debug\net6.0\DisasterTrackerApp.Entities.pdb
+E:\Subjects\MyProject\DisasterTrackerApp\DisasterTrackerApp\Tracking\DisasterTrackerApp.Dal\obj\Debug\net6.0\DisasterTrackerApp.Dal.csproj.AssemblyReference.cache
+E:\Subjects\MyProject\DisasterTrackerApp\DisasterTrackerApp\Tracking\DisasterTrackerApp.Dal\obj\Debug\net6.0\DisasterTrackerApp.Dal.GeneratedMSBuildEditorConfig.editorconfig
+E:\Subjects\MyProject\DisasterTrackerApp\DisasterTrackerApp\Tracking\DisasterTrackerApp.Dal\obj\Debug\net6.0\DisasterTrackerApp.Dal.AssemblyInfoInputs.cache
+E:\Subjects\MyProject\DisasterTrackerApp\DisasterTrackerApp\Tracking\DisasterTrackerApp.Dal\obj\Debug\net6.0\DisasterTrackerApp.Dal.AssemblyInfo.cs
+E:\Subjects\MyProject\DisasterTrackerApp\DisasterTrackerApp\Tracking\DisasterTrackerApp.Dal\obj\Debug\net6.0\DisasterTrackerApp.Dal.csproj.CoreCompileInputs.cache
+E:\Subjects\MyProject\DisasterTrackerApp\DisasterTrackerApp\Tracking\DisasterTrackerApp.Dal\obj\Debug\net6.0\DisasterTrackerApp.Dal.csproj.CopyComplete
+E:\Subjects\MyProject\DisasterTrackerApp\DisasterTrackerApp\Tracking\DisasterTrackerApp.Dal\obj\Debug\net6.0\DisasterTrackerApp.Dal.dll
+E:\Subjects\MyProject\DisasterTrackerApp\DisasterTrackerApp\Tracking\DisasterTrackerApp.Dal\obj\Debug\net6.0\ref\DisasterTrackerApp.Dal.dll
+E:\Subjects\MyProject\DisasterTrackerApp\DisasterTrackerApp\Tracking\DisasterTrackerApp.Dal\obj\Debug\net6.0\DisasterTrackerApp.Dal.pdb

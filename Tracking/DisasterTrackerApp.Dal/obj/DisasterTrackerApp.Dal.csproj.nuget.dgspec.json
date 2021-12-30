@@ -1,0 +1,122 @@
+{
+  "format": 1,
+  "restore": {
+    "E:\\Subjects\\MyProject\\DisasterTrackerApp\\DisasterTrackerApp\\Tracking\\DisasterTrackerApp.Dal\\DisasterTrackerApp.Dal.csproj": {}
+  },
+  "projects": {
+    "E:\\Subjects\\MyProject\\DisasterTrackerApp\\DisasterTrackerApp\\Tracking\\DisasterTrackerApp.Dal\\DisasterTrackerApp.Dal.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Subjects\\MyProject\\DisasterTrackerApp\\DisasterTrackerApp\\Tracking\\DisasterTrackerApp.Dal\\DisasterTrackerApp.Dal.csproj",
+        "projectName": "DisasterTrackerApp.Dal",
+        "projectPath": "E:\\Subjects\\MyProject\\DisasterTrackerApp\\DisasterTrackerApp\\Tracking\\DisasterTrackerApp.Dal\\DisasterTrackerApp.Dal.csproj",
+        "packagesPath": "C:\\Users\\tysch\\.nuget\\packages\\",
+        "outputPath": "E:\\Subjects\\MyProject\\DisasterTrackerApp\\DisasterTrackerApp\\Tracking\\DisasterTrackerApp.Dal\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\tysch\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "E:\\Subjects\\MyProject\\DisasterTrackerApp\\DisasterTrackerApp\\Tracking\\DisasterTrackerApp.Entities\\DisasterTrackerApp.Entities.csproj": {
+                "projectPath": "E:\\Subjects\\MyProject\\DisasterTrackerApp\\DisasterTrackerApp\\Tracking\\DisasterTrackerApp.Entities\\DisasterTrackerApp.Entities.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\Subjects\\MyProject\\DisasterTrackerApp\\DisasterTrackerApp\\Tracking\\DisasterTrackerApp.Entities\\DisasterTrackerApp.Entities.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Subjects\\MyProject\\DisasterTrackerApp\\DisasterTrackerApp\\Tracking\\DisasterTrackerApp.Entities\\DisasterTrackerApp.Entities.csproj",
+        "projectName": "DisasterTrackerApp.Entities",
+        "projectPath": "E:\\Subjects\\MyProject\\DisasterTrackerApp\\DisasterTrackerApp\\Tracking\\DisasterTrackerApp.Entities\\DisasterTrackerApp.Entities.csproj",
+        "packagesPath": "C:\\Users\\tysch\\.nuget\\packages\\",
+        "outputPath": "E:\\Subjects\\MyProject\\DisasterTrackerApp\\DisasterTrackerApp\\Tracking\\DisasterTrackerApp.Entities\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\tysch\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

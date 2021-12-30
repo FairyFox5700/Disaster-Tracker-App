@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="Contract" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\DisasterTrackerApp.Models\DisasterTrackerApp.Models.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Google.Apis" Version="1.55.0" />
+      <PackageReference Include="Google.Apis.Calendar.v3" Version="1.55.0.2500" />
+      <PackageReference Include="Google.Apis.Core" Version="1.55.0" />
+    </ItemGroup>
+
+</Project>

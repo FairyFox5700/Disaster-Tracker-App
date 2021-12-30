@@ -1,0 +1,12 @@
+E:\Subjects\MyProject\DisasterTrackerApp\DisasterTrackerApp\Tracking\DisasterTrackerApp.Utils\bin\Debug\net6.0\DisasterTrackerApp.Utils.deps.json
+E:\Subjects\MyProject\DisasterTrackerApp\DisasterTrackerApp\Tracking\DisasterTrackerApp.Utils\bin\Debug\net6.0\DisasterTrackerApp.Utils.dll
+E:\Subjects\MyProject\DisasterTrackerApp\DisasterTrackerApp\Tracking\DisasterTrackerApp.Utils\bin\Debug\net6.0\ref\DisasterTrackerApp.Utils.dll
+E:\Subjects\MyProject\DisasterTrackerApp\DisasterTrackerApp\Tracking\DisasterTrackerApp.Utils\bin\Debug\net6.0\DisasterTrackerApp.Utils.pdb
+E:\Subjects\MyProject\DisasterTrackerApp\DisasterTrackerApp\Tracking\DisasterTrackerApp.Utils\obj\Debug\net6.0\DisasterTrackerApp.Utils.csproj.AssemblyReference.cache
+E:\Subjects\MyProject\DisasterTrackerApp\DisasterTrackerApp\Tracking\DisasterTrackerApp.Utils\obj\Debug\net6.0\DisasterTrackerApp.Utils.GeneratedMSBuildEditorConfig.editorconfig
+E:\Subjects\MyProject\DisasterTrackerApp\DisasterTrackerApp\Tracking\DisasterTrackerApp.Utils\obj\Debug\net6.0\DisasterTrackerApp.Utils.AssemblyInfoInputs.cache
+E:\Subjects\MyProject\DisasterTrackerApp\DisasterTrackerApp\Tracking\DisasterTrackerApp.Utils\obj\Debug\net6.0\DisasterTrackerApp.Utils.AssemblyInfo.cs
+E:\Subjects\MyProject\DisasterTrackerApp\DisasterTrackerApp\Tracking\DisasterTrackerApp.Utils\obj\Debug\net6.0\DisasterTrackerApp.Utils.csproj.CoreCompileInputs.cache
+E:\Subjects\MyProject\DisasterTrackerApp\DisasterTrackerApp\Tracking\DisasterTrackerApp.Utils\obj\Debug\net6.0\DisasterTrackerApp.Utils.dll
+E:\Subjects\MyProject\DisasterTrackerApp\DisasterTrackerApp\Tracking\DisasterTrackerApp.Utils\obj\Debug\net6.0\ref\DisasterTrackerApp.Utils.dll
+E:\Subjects\MyProject\DisasterTrackerApp\DisasterTrackerApp\Tracking\DisasterTrackerApp.Utils\obj\Debug\net6.0\DisasterTrackerApp.Utils.pdb

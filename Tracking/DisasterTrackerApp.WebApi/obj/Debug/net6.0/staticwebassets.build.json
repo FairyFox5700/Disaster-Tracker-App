@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "FU4rQpOMj7FkZ14B2Fh5T/WzKCtayE7te5voCPbur78=",
+  "Source": "DisasterTrackerApp.WebApi",
+  "BasePath": "_content/DisasterTrackerApp.WebApi",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
