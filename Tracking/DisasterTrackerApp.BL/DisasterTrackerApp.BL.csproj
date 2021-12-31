@@ -18,6 +18,7 @@
       <PackageReference Include="Google.Apis" Version="1.55.0" />
       <PackageReference Include="Google.Apis.Calendar.v3" Version="1.55.0.2500" />
       <PackageReference Include="Google.Apis.Core" Version="1.55.0" />
+      <PackageReference Include="System.Reactive" Version="5.0.0" />
     </ItemGroup>
 
 </Project>

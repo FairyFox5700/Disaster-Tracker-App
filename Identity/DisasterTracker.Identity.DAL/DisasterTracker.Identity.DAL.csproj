@@ -27,6 +27,7 @@
       </PackageReference>
       <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="6.0.1" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.1" />
+      <PackageReference Include="System.Reactive" Version="5.0.0" />
     </ItemGroup>
 
 </Project>
