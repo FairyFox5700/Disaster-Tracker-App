@@ -50,6 +50,7 @@ public class GoogleCalendarService
         {
             HttpClientInitializer = googleCredentials,
         });
+        service.CalendarList.Watch(BuildWatchChannel(token));
         EventsResource.ListRequest request = service.Events.List(CalendarId);
         request.UpdatedMin = dateTime;
         request.ShowDeleted = false;
