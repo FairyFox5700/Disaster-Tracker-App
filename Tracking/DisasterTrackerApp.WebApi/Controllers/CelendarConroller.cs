@@ -35,7 +35,7 @@ public class CelndarConroller:ControllerBase
         GoogleCredential cred = await auth.GetCredentialAsync();
         var service = new CalendarService(new BaseClientService.Initializer
         {
-            HttpClientInitializer = cred
+            HttpClientInitializer = cred,
         });
         var calendars = await service.CalendarList.List().ExecuteAsync();
         var calendarIds = calendars.Items.Select(calendar => calendar.Id).ToList();
