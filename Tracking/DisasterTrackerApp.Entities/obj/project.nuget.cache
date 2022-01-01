@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "ov4BknlVVi+Bt26jucIv+rDjWrJx0jwxxkXUZwDMKK6yf4ATFOjEsoUugqXtx94xRHmbmS4KZX2OwGjRGS2q2A==",
+  "dgSpecHash": "6HEDTZ00rVE1KrizVZsaVPv3gQrLbgewkVgqMuUNvkp+033U4Bis+yEO01EQON0sVyETlq348k44ARLwf6r+ew==",
   "success": true,
   "projectFilePath": "E:\\Subjects\\MyProject\\DisasterTrackerApp\\DisasterTrackerApp\\Tracking\\DisasterTrackerApp.Entities\\DisasterTrackerApp.Entities.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\tysch\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\6.0.1\\microsoft.entityframeworkcore.abstractions.6.0.1.nupkg.sha512",
+    "C:\\Users\\tysch\\.nuget\\packages\\nettopologysuite\\2.0.0\\nettopologysuite.2.0.0.nupkg.sha512",
+    "C:\\Users\\tysch\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512"
+  ],
   "logs": []
 }

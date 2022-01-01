@@ -1,0 +1,72 @@
+is_global = true
+build_property.TargetFramework = net6.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = DisasterTrackerApp
+build_property.RootNamespace = DisasterTrackerApp
+build_property.ProjectDir = E:\Subjects\MyProject\DisasterTrackerApp\DisasterTrackerApp\
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = E:\Subjects\MyProject\DisasterTrackerApp\DisasterTrackerApp
+build_property._RazorSourceGeneratorDebug = 
+
+[E:/Subjects/MyProject/DisasterTrackerApp/DisasterTrackerApp/Identity/DisasterTrackerApp.Identity/Pages/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = SWRlbnRpdHlcRGlzYXN0ZXJUcmFja2VyQXBwLklkZW50aXR5XFBhZ2VzXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/Subjects/MyProject/DisasterTrackerApp/DisasterTrackerApp/Identity/DisasterTrackerApp.Identity/Pages/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = SWRlbnRpdHlcRGlzYXN0ZXJUcmFja2VyQXBwLklkZW50aXR5XFBhZ2VzXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/Subjects/MyProject/DisasterTrackerApp/DisasterTrackerApp/Identity/DisasterTrackerApp.Identity/Pages/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = SWRlbnRpdHlcRGlzYXN0ZXJUcmFja2VyQXBwLklkZW50aXR5XFBhZ2VzXFByaXZhY3kuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/Subjects/MyProject/DisasterTrackerApp/DisasterTrackerApp/Identity/DisasterTrackerApp.Identity/Pages/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = SWRlbnRpdHlcRGlzYXN0ZXJUcmFja2VyQXBwLklkZW50aXR5XFBhZ2VzXFNoYXJlZFxfVmFsaWRhdGlvblNjcmlwdHNQYXJ0aWFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/Subjects/MyProject/DisasterTrackerApp/DisasterTrackerApp/Identity/DisasterTrackerApp.Identity/Pages/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = SWRlbnRpdHlcRGlzYXN0ZXJUcmFja2VyQXBwLklkZW50aXR5XFBhZ2VzXF9WaWV3SW1wb3J0cy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/Subjects/MyProject/DisasterTrackerApp/DisasterTrackerApp/Identity/DisasterTrackerApp.Identity/Pages/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = SWRlbnRpdHlcRGlzYXN0ZXJUcmFja2VyQXBwLklkZW50aXR5XFBhZ2VzXF9WaWV3U3RhcnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/Subjects/MyProject/DisasterTrackerApp/DisasterTrackerApp/Tracking/DisasterTrackerApp/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = VHJhY2tpbmdcRGlzYXN0ZXJUcmFja2VyQXBwXFZpZXdzXEhvbWVcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/Subjects/MyProject/DisasterTrackerApp/DisasterTrackerApp/Tracking/DisasterTrackerApp/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = VHJhY2tpbmdcRGlzYXN0ZXJUcmFja2VyQXBwXFZpZXdzXEhvbWVcUHJpdmFjeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/Subjects/MyProject/DisasterTrackerApp/DisasterTrackerApp/Tracking/DisasterTrackerApp/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = VHJhY2tpbmdcRGlzYXN0ZXJUcmFja2VyQXBwXFZpZXdzXFNoYXJlZFxFcnJvci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/Subjects/MyProject/DisasterTrackerApp/DisasterTrackerApp/Tracking/DisasterTrackerApp/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = VHJhY2tpbmdcRGlzYXN0ZXJUcmFja2VyQXBwXFZpZXdzXFNoYXJlZFxfVmFsaWRhdGlvblNjcmlwdHNQYXJ0aWFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/Subjects/MyProject/DisasterTrackerApp/DisasterTrackerApp/Tracking/DisasterTrackerApp/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = VHJhY2tpbmdcRGlzYXN0ZXJUcmFja2VyQXBwXFZpZXdzXF9WaWV3SW1wb3J0cy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/Subjects/MyProject/DisasterTrackerApp/DisasterTrackerApp/Tracking/DisasterTrackerApp/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = VHJhY2tpbmdcRGlzYXN0ZXJUcmFja2VyQXBwXFZpZXdzXF9WaWV3U3RhcnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/Subjects/MyProject/DisasterTrackerApp/DisasterTrackerApp/Identity/DisasterTrackerApp.Identity/Pages/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = SWRlbnRpdHlcRGlzYXN0ZXJUcmFja2VyQXBwLklkZW50aXR5XFBhZ2VzXFNoYXJlZFxfTGF5b3V0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = b-b0x00k5igi
+
+[E:/Subjects/MyProject/DisasterTrackerApp/DisasterTrackerApp/Tracking/DisasterTrackerApp/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = VHJhY2tpbmdcRGlzYXN0ZXJUcmFja2VyQXBwXFZpZXdzXFNoYXJlZFxfTGF5b3V0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = b-hyscgpe2d7
