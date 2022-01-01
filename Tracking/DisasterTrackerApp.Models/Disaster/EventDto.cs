@@ -17,7 +17,7 @@ public class EventDto
     public string Link { get; set; }
 
     [JsonPropertyName("closed")]
-    public DateTime Closed { get; set; }
+    public DateTime? Closed { get; set; }
 
     [JsonPropertyName("categories")]
     public List<CategoryDto> Categories { get; set; }
