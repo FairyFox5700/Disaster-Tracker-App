@@ -12,11 +12,10 @@ public class DisasterTrackerContext:DbContext
     }
 
     public virtual DbSet<CalendarEvent> CalendarEvents { get; set; } = default!;
-    public virtual  DbSet<DisasterEvent> DisasterEvent { get; set; } = default!;
-    public virtual  DbSet<GoogleUser> GoogleUsers { get; set; } = default!;
-    public virtual  DbSet<GoogleCalendar> Calendars { get; set; } = default!;
-    public virtual  DbSet<Warning> Warnings { get; set; } = default!;
-    
+    public virtual DbSet<DisasterEvent> DisasterEvent { get; set; } = default!;
+    public virtual DbSet<GoogleUser> GoogleUsers { get; set; } = default!;
+    public virtual DbSet<GoogleCalendar> Calendars { get; set; } = default!;
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
