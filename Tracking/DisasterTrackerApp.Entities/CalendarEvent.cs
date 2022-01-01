@@ -1,13 +1,28 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Point = NetTopologySuite.Geometries.Point;
+
+
 namespace DisasterTrackerApp.Entities;
 
-public class CalendarEvent
+public class CalendarEvent:IKeyEntity<Guid>, IAuditable
 {
-    public int Id { get; set; }
-    public int UserId { get; set; }
-    public string GoogleId { get; set; }
-    public string Summary { get; set; }
-    public DateTime Start { get; set; }
-    public DateTime End { get; set; }
-    public string Location { get; set; }
-    public Coordiantes Coordiantes { get; set; }
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public Guid Id { get; set; }
+    public string GoogleEventId { get; set; }= null!;
+    public string? Summary { get; set; }
+    public DateTime StartedTs { get; set; }
+    public DateTime EndTs { get; set; }
+    public string? Location { get; set; }
+    public Point Coordiantes { get; set; }
+    
+    #region FK
+    public string CalendarId { get; set; }= null!;
+
+    public GoogleCalendar Calendar { get; set; } = null!;
+    #endregion
+
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset UpdatedAt { get; set; }
 }
