@@ -39,10 +39,6 @@ builder.Services.AddHttpClient<IDisasterEventsClient, DisasterEventsClient>(clie
 // Add the processing server as IHostedService
 builder.Services.AddHangfireServer();
 builder.Services.AddDalDependencies(builder.Configuration);
-/*builder.Services.AddDbContext<DisasterTrackerContext>(
-    options =>options.UseNpgsql(builder.Configuration.GetConnectionString("DisasterTrackerConnection"),
-        o => o.UseNetTopologySuite()
-            .MigrationsAssembly(typeof(DisasterTrackerContext).Assembly.FullName)));*/
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
