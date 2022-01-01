@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace DisasterTrackerApp.Models.Disaster;
 
-public class EventDto
+public class DisasterEventDto
 {
     [JsonPropertyName("id")]
     public string Id { get; set; }
