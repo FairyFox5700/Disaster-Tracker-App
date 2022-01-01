@@ -1,8 +1,0 @@
-E:\Subjects\MyProject\DisasterTrackerApp\DisasterTrackerApp\obj\Debug\net6.0\DisasterTrackerApp.csproj.AssemblyReference.cache
-E:\Subjects\MyProject\DisasterTrackerApp\DisasterTrackerApp\obj\Debug\net6.0\DisasterTrackerApp.GeneratedMSBuildEditorConfig.editorconfig
-E:\Subjects\MyProject\DisasterTrackerApp\DisasterTrackerApp\obj\Debug\net6.0\DisasterTrackerApp.AssemblyInfoInputs.cache
-E:\Subjects\MyProject\DisasterTrackerApp\DisasterTrackerApp\obj\Debug\net6.0\DisasterTrackerApp.AssemblyInfo.cs
-E:\Subjects\MyProject\DisasterTrackerApp\DisasterTrackerApp\obj\Debug\net6.0\DisasterTrackerApp.csproj.CoreCompileInputs.cache
-E:\Subjects\MyProject\DisasterTrackerApp\DisasterTrackerApp\obj\Debug\net6.0\DisasterTrackerApp.MvcApplicationPartsAssemblyInfo.cache
-E:\Subjects\MyProject\DisasterTrackerApp\DisasterTrackerApp\obj\Debug\net6.0\DisasterTrackerApp.RazorAssemblyInfo.cache
-E:\Subjects\MyProject\DisasterTrackerApp\DisasterTrackerApp\obj\Debug\net6.0\DisasterTrackerApp.RazorAssemblyInfo.cs
