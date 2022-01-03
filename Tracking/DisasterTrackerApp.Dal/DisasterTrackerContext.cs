@@ -41,6 +41,12 @@ public class DisasterTrackerContext:DbContext
         modelBuilder.Entity<DisasterEvent>()
             .HasIndex(e => e.ExternalApiId)
             .IsUnique(true);
+        modelBuilder.Entity<DisasterEvent>().OwnsMany(c => c.Coordiantes, d =>
+          {
+              d.WithOwner().HasForeignKey("DisasterId");
+              d.Property<Guid>("Id");
+              d.HasKey("Id");
+          });
     }
     
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
