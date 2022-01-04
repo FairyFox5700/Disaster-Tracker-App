@@ -1,11 +1,9 @@
 using System.Net.Http.Headers;
-using DisasterTrackerApp.Models.ApiModels;
 using DisasterTrackerApp.Models.Auth;
-using DisasterTrackerApp.Models.Disaster;
 using DisasterTrackerApp.Utils.Extensions;
 using Google.Apis.Auth.OAuth2;
 
-namespace DisasterTrackerApp.WebApi.HttpClients.Implementation;
+namespace DisasterTrackerApp.BL.HttpClients.Implementation;
 
 public class GoogleAuthClient
 {

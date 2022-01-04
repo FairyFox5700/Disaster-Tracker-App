@@ -1,9 +1,6 @@
-using System.Reactive;
-using System.Reactive.Subjects;
-using DisasterTrackerApp.Models.ApiModels;
 using DisasterTrackerApp.Models.Disaster;
 
-namespace DisasterTrackerApp.WebApi.HttpClients.Contract;
+namespace DisasterTrackerApp.BL.HttpClients.Contract;
 
 public interface IDisasterEventsClient
 {
