@@ -31,13 +31,12 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\DisasterTrackerApp.Dal\DisasterTrackerApp.Dal.csproj" />
-      <ProjectReference Include="..\DisasterTrackerApp.Models\DisasterTrackerApp.Models.csproj" />
+      <Content Remove="client_credentional.json" />
+      <Resource Include="client_credentional.json" />
     </ItemGroup>
 
     <ItemGroup>
-      <Content Remove="client_credentional.json" />
-      <Resource Include="client_credentional.json" />
+      <ProjectReference Include="..\DisasterTrackerApp.BL\DisasterTrackerApp.BL.csproj" />
     </ItemGroup>
 
 </Project>
