@@ -5,6 +5,7 @@ using DisasterTrackerApp.WebApi.Internal;
 using Hangfire;
 using Hangfire.SqlServer;
 using Microsoft.EntityFrameworkCore;
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHangfire(x => x.UseSqlServerStorage(builder
     .Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddSingleton<IConnectionMultiplexer>(opt => 
+    ConnectionMultiplexer.Connect(builder.Configuration.GetConnectionString("RedisCacheConnection")));
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration =builder.Configuration.GetValue<string>("Redis.connection");
+});
 builder.Services.AddHangfire(configuration => configuration
     .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
     .UseSimpleAssemblyNameTypeSerializer()

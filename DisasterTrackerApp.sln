@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DisasterTrackerApp.BL", "Tr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DisasterTrackerApp.Dal", "Tracking\DisasterTrackerApp.Dal\DisasterTrackerApp.Dal.csproj", "{02018675-6367-44BE-8D38-6CB934C39C9F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DisasterTracker.TUnitTests", "test\DisasterTracker.TUnitTests\DisasterTracker.TUnitTests.csproj", "{4476F8BD-8E25-408D-9471-0982E3A85D15}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +60,10 @@ Global
 		{02018675-6367-44BE-8D38-6CB934C39C9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02018675-6367-44BE-8D38-6CB934C39C9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02018675-6367-44BE-8D38-6CB934C39C9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4476F8BD-8E25-408D-9471-0982E3A85D15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4476F8BD-8E25-408D-9471-0982E3A85D15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4476F8BD-8E25-408D-9471-0982E3A85D15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4476F8BD-8E25-408D-9471-0982E3A85D15}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{64FF0C59-2D0E-468C-AD37-22F9C497088E} = {DA16EFA7-0F70-47C3-8A92-F377FC5D10A4}

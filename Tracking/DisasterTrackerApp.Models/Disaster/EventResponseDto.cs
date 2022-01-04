@@ -14,5 +14,5 @@ public class EventResponseDto
     public string Link { get; set; }
 
     [JsonPropertyName("events")]
-    public List<EventResponseDto> Events { get; set; }
+    public List<DisasterEventDto> Events { get; set; }
 }

@@ -24,6 +24,7 @@ public static class DependencyInjectionInstaller
     {
         services.AddTransient<IDisasterEventRepository, DisasterEventRepository>();
         services.AddTransient<ICalendarRepository, CalendarRepository>();
+        services.AddTransient<IRedisDisasterEventsRepository, RedisDisasterEventsRepository>();
         return services;
     }
 }
