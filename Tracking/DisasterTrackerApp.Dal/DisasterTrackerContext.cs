@@ -13,6 +13,8 @@ public class DisasterTrackerContext:DbContext
 
     public virtual DbSet<CalendarEvent> CalendarEvents { get; set; } = default!;
     public virtual DbSet<DisasterEvent> DisasterEvent { get; set; } = default!;
+    public virtual DbSet<CategoryEntity> Categories { get; set; } = default!;
+    public virtual DbSet<SourceEntity> Sources { get; set; } = default!;
     public virtual DbSet<GoogleUser> GoogleUsers { get; set; } = default!;
     public virtual DbSet<GoogleCalendar> Calendars { get; set; } = default!;
 
@@ -38,15 +40,7 @@ public class DisasterTrackerContext:DbContext
         
         modelBuilder.Entity<DisasterEvent>()
             .HasKey(e => e.Id);
-        modelBuilder.Entity<DisasterEvent>()
-            .HasIndex(e => e.ExternalApiId)
-            .IsUnique(true);
-        modelBuilder.Entity<DisasterEvent>().OwnsMany(c => c.Coordiantes, d =>
-          {
-              d.WithOwner().HasForeignKey("DisasterId");
-              d.Property<Guid>("Id");
-              d.HasKey("Id");
-          });
+
     }
     
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())

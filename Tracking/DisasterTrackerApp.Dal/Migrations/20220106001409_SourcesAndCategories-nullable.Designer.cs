@@ -3,6 +3,7 @@ using System;
 using DisasterTrackerApp.Dal;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetTopologySuite.Geometries;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -12,9 +13,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DisasterTrackerApp.Dal.Migrations
 {
     [DbContext(typeof(DisasterTrackerContext))]
-    partial class DisasterTrackerContextModelSnapshot : ModelSnapshot
+    [Migration("20220106001409_SourcesAndCategories-nullable")]
+    partial class SourcesAndCategoriesnullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

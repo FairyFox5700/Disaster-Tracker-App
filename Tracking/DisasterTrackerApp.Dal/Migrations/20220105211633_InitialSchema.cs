@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 using NetTopologySuite.Geometries;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
@@ -12,22 +11,16 @@ namespace DisasterTrackerApp.Dal.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "DisasterEvent",
+                name: "DisasterPropertyEntity",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    ExternalApiId = table.Column<string>(type: "text", nullable: false),
-                    Tittle = table.Column<string>(type: "text", nullable: true),
-                    CategoryTittle = table.Column<string>(type: "text", nullable: true),
-                    Description = table.Column<string>(type: "text", nullable: true),
-                    Active = table.Column<bool>(type: "boolean", nullable: true),
-                    Coordiantes = table.Column<Point>(type: "geometry", nullable: false),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
+                    Title = table.Column<string>(type: "text", nullable: false),
+                    Closed = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DisasterEvent", x => x.Id);
+                    table.PrimaryKey("PK_DisasterPropertyEntity", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -45,20 +38,57 @@ namespace DisasterTrackerApp.Dal.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Warnings",
+                name: "Sources",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserId = table.Column<int>(type: "integer", nullable: false),
-                    CalendarEventId = table.Column<int>(type: "integer", nullable: false),
-                    DisasterEventId = table.Column<int>(type: "integer", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UUID = table.Column<string>(type: "text", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    ExternalApiId = table.Column<string>(type: "text", nullable: false),
+                    Url = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Warnings", x => x.Id);
+                    table.PrimaryKey("PK_Sources", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Categories",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    ExternalApiId = table.Column<string>(type: "text", nullable: false),
+                    Title = table.Column<string>(type: "text", nullable: false),
+                    DisasterPropertyEntityId = table.Column<Guid>(type: "uuid", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Categories_DisasterPropertyEntity_DisasterPropertyEntityId",
+                        column: x => x.DisasterPropertyEntityId,
+                        principalTable: "DisasterPropertyEntity",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DisasterEvent",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    ExternalApiId = table.Column<string>(type: "text", nullable: false),
+                    PropertiesId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Geometry = table.Column<Geometry>(type: "geometry", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DisasterEvent", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DisasterEvent_DisasterPropertyEntity_PropertiesId",
+                        column: x => x.PropertiesId,
+                        principalTable: "DisasterPropertyEntity",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -135,10 +165,14 @@ namespace DisasterTrackerApp.Dal.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DisasterEvent_ExternalApiId",
+                name: "IX_Categories_DisasterPropertyEntityId",
+                table: "Categories",
+                column: "DisasterPropertyEntityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DisasterEvent_PropertiesId",
                 table: "DisasterEvent",
-                column: "ExternalApiId",
-                unique: true);
+                column: "PropertiesId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -147,13 +181,19 @@ namespace DisasterTrackerApp.Dal.Migrations
                 name: "CalendarEvents");
 
             migrationBuilder.DropTable(
+                name: "Categories");
+
+            migrationBuilder.DropTable(
                 name: "DisasterEvent");
 
             migrationBuilder.DropTable(
-                name: "Warnings");
+                name: "Sources");
 
             migrationBuilder.DropTable(
                 name: "Calendars");
+
+            migrationBuilder.DropTable(
+                name: "DisasterPropertyEntity");
 
             migrationBuilder.DropTable(
                 name: "GoogleUsers");
