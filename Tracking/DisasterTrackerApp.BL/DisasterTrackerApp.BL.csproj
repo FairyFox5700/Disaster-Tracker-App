@@ -7,17 +7,18 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Contract" />
-    </ItemGroup>
-
-    <ItemGroup>
+      <ProjectReference Include="..\DisasterTrackerApp.Dal\DisasterTrackerApp.Dal.csproj" />
       <ProjectReference Include="..\DisasterTrackerApp.Models\DisasterTrackerApp.Models.csproj" />
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="GeoJSON.Net" Version="1.2.19" />
       <PackageReference Include="Google.Apis" Version="1.55.0" />
       <PackageReference Include="Google.Apis.Calendar.v3" Version="1.55.0.2500" />
       <PackageReference Include="Google.Apis.Core" Version="1.55.0" />
+      <PackageReference Include="NetTopologySuite.IO.GeoJSON" Version="2.0.4" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+      <PackageReference Include="System.Reactive" Version="5.0.0" />
     </ItemGroup>
 
 </Project>

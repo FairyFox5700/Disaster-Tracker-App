@@ -78,7 +78,7 @@ namespace DisasterTrackerApp.Dal.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("DisasterPropertyEntityId")
+                    b.Property<Guid?>("DisasterEventId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("ExternalApiId")
@@ -89,7 +89,7 @@ namespace DisasterTrackerApp.Dal.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DisasterPropertyEntityId");
+                    b.HasIndex("DisasterEventId");
 
                     b.ToTable("Categories");
                 });
@@ -100,35 +100,23 @@ namespace DisasterTrackerApp.Dal.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<DateTime?>("Closed")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ExternalApiId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<Geometry>("Geometry")
                         .IsRequired()
                         .HasColumnType("geometry");
-
-                    b.Property<Guid>("PropertiesId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PropertiesId");
-
-                    b.ToTable("DisasterEvent");
-                });
-
-            modelBuilder.Entity("DisasterTrackerApp.Entities.DisasterPropertyEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("Closed")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Title")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("DisasterPropertyEntity");
+                    b.ToTable("DisasterEvent");
                 });
 
             modelBuilder.Entity("DisasterTrackerApp.Entities.GoogleCalendar", b =>
@@ -197,7 +185,7 @@ namespace DisasterTrackerApp.Dal.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("DisasterPropertyEntityId")
+                    b.Property<Guid?>("DisasterEventId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("ExternalApiId")
@@ -208,7 +196,7 @@ namespace DisasterTrackerApp.Dal.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DisasterPropertyEntityId");
+                    b.HasIndex("DisasterEventId");
 
                     b.ToTable("Sources");
                 });
@@ -226,20 +214,9 @@ namespace DisasterTrackerApp.Dal.Migrations
 
             modelBuilder.Entity("DisasterTrackerApp.Entities.CategoryEntity", b =>
                 {
-                    b.HasOne("DisasterTrackerApp.Entities.DisasterPropertyEntity", null)
+                    b.HasOne("DisasterTrackerApp.Entities.DisasterEvent", null)
                         .WithMany("Categories")
-                        .HasForeignKey("DisasterPropertyEntityId");
-                });
-
-            modelBuilder.Entity("DisasterTrackerApp.Entities.DisasterEvent", b =>
-                {
-                    b.HasOne("DisasterTrackerApp.Entities.DisasterPropertyEntity", "Properties")
-                        .WithMany()
-                        .HasForeignKey("PropertiesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Properties");
+                        .HasForeignKey("DisasterEventId");
                 });
 
             modelBuilder.Entity("DisasterTrackerApp.Entities.GoogleCalendar", b =>
@@ -255,12 +232,12 @@ namespace DisasterTrackerApp.Dal.Migrations
 
             modelBuilder.Entity("DisasterTrackerApp.Entities.SourceEntity", b =>
                 {
-                    b.HasOne("DisasterTrackerApp.Entities.DisasterPropertyEntity", null)
+                    b.HasOne("DisasterTrackerApp.Entities.DisasterEvent", null)
                         .WithMany("Sources")
-                        .HasForeignKey("DisasterPropertyEntityId");
+                        .HasForeignKey("DisasterEventId");
                 });
 
-            modelBuilder.Entity("DisasterTrackerApp.Entities.DisasterPropertyEntity", b =>
+            modelBuilder.Entity("DisasterTrackerApp.Entities.DisasterEvent", b =>
                 {
                     b.Navigation("Categories");
 

@@ -11,7 +11,11 @@ public class DisasterEvent:IKeyEntity<Guid>
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
-    public DisasterPropertyEntity Properties { get; set; }
+    public string ExternalApiId { get; set; }
+    public string? Title { get; set; }
+    public DateTime? Closed { get; set; }
+    public ICollection<SourceEntity?>? Sources { get; set; }
+    public ICollection<CategoryEntity?>? Categories { get; set; }
     [JsonConverter(typeof(GeometryConverter))]
     public Geometry Geometry { get; set; }
 }

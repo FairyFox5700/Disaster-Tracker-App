@@ -10,7 +10,11 @@ namespace DisasterTrackerApp.BL.Mappers
             return
                 new DisasterEvent()
                 {
-                    Properties = MapPropertyDtoToEntity(disasterEvent.Properties),
+                    ExternalApiId = disasterEvent.Properties.Id,
+                    Title = disasterEvent.Properties.Title,
+                    Closed = disasterEvent.Properties.Closed,
+                    //Sources = disasterEvent.Properties.Sources.Select(MapSourceDtoToEntity).ToList(), //TODO: check events on non-existent JSON property sources property 
+                    Categories = disasterEvent.Properties.Categories.Select(MapCategoryDtoToEntity).ToList(),
                     Geometry = disasterEvent.Geometry
                 };
         }
@@ -31,16 +35,6 @@ namespace DisasterTrackerApp.BL.Mappers
                     ExternalApiId = categoryDto.Id,
                     Title = categoryDto.Title
                 };
-        }
-        public static DisasterPropertyEntity MapPropertyDtoToEntity(PropertyDto propertyDto)
-        {
-            return new DisasterPropertyEntity()
-            {
-                Title = propertyDto.Title,
-                Closed = propertyDto.Closed,
-                //Sources = propertyDto.Sources.Select(MapSourceDtoToEntity).ToList(), //TODO: check events on non-existent JSON property sources property 
-                Categories = propertyDto.Categories.Select(MapCategoryDtoToEntity).ToList()
-            };
         }
     }
 }
