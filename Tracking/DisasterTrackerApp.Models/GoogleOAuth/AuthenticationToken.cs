@@ -1,4 +1,4 @@
-namespace DisasterTrackerApp.Models.Auth;
+namespace DisasterTrackerApp.Models.GoogleOAuth;
 
 public class AuthenticationToken
 {

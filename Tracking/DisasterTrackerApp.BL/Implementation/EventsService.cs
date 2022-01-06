@@ -1,4 +1,3 @@
-using DisasterTrackerApp.Models.Auth;
 using DisasterTrackerApp.Models.Calendar;
 
 namespace DisasterTrackerApp.BL.Implementation;

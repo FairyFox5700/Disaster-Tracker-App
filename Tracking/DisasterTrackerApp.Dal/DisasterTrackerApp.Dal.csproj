@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\DisasterTrackerApp.Entities\DisasterTrackerApp.Entities.csproj" />
+      <ProjectReference Include="..\DisasterTrackerApp.Utils\DisasterTrackerApp.Utils.csproj" />
     </ItemGroup>
 
     <ItemGroup>

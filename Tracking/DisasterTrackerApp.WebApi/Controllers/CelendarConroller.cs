@@ -1,44 +1,35 @@
-using Google.Apis.Auth.AspNetCore3;
-using Google.Apis.Auth.OAuth2;
-using Google.Apis.Auth.OAuth2.Flows;
-using Google.Apis.Calendar.v3;
-using Google.Apis.Services;
-using Microsoft.AspNetCore.Authorization;
+using DisasterTrackerApp.BL.Contract;
+using DisasterTrackerApp.Models.Calendar;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DisasterTrackerApp.Identity.Controllers;
+namespace DisasterTrackerApp.WebApi.Controllers;
 
-public class CelndarConroller:ControllerBase
+public class CalendarController : ControllerBase
 {
-    /// <summary>
-    /// Lists the authenticated user's Calendars.
-    /// Specifying the <see cref="AuthorizeAttribute"/> will guarantee that the code executes only if the
-    /// user is authenticated.
-    /// No scopes are required via attributes.
-    /// Instead, scope are required via code using <see cref="IGoogleAuthProvider.RequireScopesAsync(string[])"/>.
-    /// </summary>
-    /// <param name="auth">The Google authorization provider.
-    /// This can also be injected on the controller constructor.</param>
-    [Authorize]
-    public async Task<IActionResult> CalendarList([FromServices] IGoogleAuthProvider auth)
+    private readonly IUsersGoogleCalendarDataUpdatingService _calendarUpdateService;
+    public CalendarController(IUsersGoogleCalendarDataUpdatingService calendarUpdateService)
     {
-        // Check if the required scopes have been granted. 
-        if (await auth.RequireScopesAsync(CalendarService.ScopeConstants.CalendarReadonly) is IActionResult authResult)
+        _calendarUpdateService = calendarUpdateService;
+    }
+
+    [HttpPost("updates")]
+    public async Task<IActionResult> ReceiveEventUpdate(
+        [FromHeader(Name = "X-Goog-Channel-ID")] string channelId,
+        [FromHeader(Name = "X-Goog-Resource-ID")] string eventGoogleId,
+        [FromHeader(Name = "X-Goog-Resource-State")] string resourceSate)
+    {
+        if (resourceSate.Equals(ResourceState.Sync))
         {
-            // If the required scopes are not granted, then a non-null IActionResult will be returned,
-            // which must be returned from the action. This triggers incremental authorization.
-            // Once the user has granted the scope, an automatic redirect to this action will be issued.
-            return authResult;
+            return Ok();
         }
-       
-        // The required scopes have now been granted.
-        GoogleCredential cred = await auth.GetCredentialAsync();
-        var service = new CalendarService(new BaseClientService.Initializer
-        {
-            HttpClientInitializer = cred
-        });
-        var calendars = await service.CalendarList.List().ExecuteAsync();
-        var calendarIds = calendars.Items.Select(calendar => calendar.Id).ToList();
-        return Ok(calendarIds);
+        
+        return Ok();
+    }
+    
+    [HttpGet("events")]
+    public async Task<IActionResult> Test()
+    {
+        return Ok();
+
     }
 }

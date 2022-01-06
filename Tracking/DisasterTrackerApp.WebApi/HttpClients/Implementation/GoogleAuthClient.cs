@@ -1,7 +1,7 @@
 using System.Net.Http.Headers;
 using DisasterTrackerApp.Models.ApiModels;
-using DisasterTrackerApp.Models.Auth;
 using DisasterTrackerApp.Models.Disaster;
+using DisasterTrackerApp.Models.GoogleOAuth;
 using DisasterTrackerApp.Utils.Extensions;
 using Google.Apis.Auth.OAuth2;
 
@@ -17,6 +17,11 @@ public class GoogleAuthClient
     public static readonly string LINK_GET_TOKEN = "https://accounts.google.com/o/oauth2/token";
     private ClientSecrets? _clientSecrets;
 
+    public GoogleAuthClient(HttpClient httpClient)
+    {
+        _httpClient = httpClient;
+    }
+    
     public async ValueTask<string> GetRedirectLink()
     {
         var clientCredentionals = await GetClientSecrets().ConfigureAwait(false);
@@ -28,11 +33,6 @@ public class GoogleAuthClient
         return redirect;
     }
     
-    public GoogleAuthClient(HttpClient httpClient)
-    {
-        _httpClient = httpClient;
-    }
-
     public async Task<AuthenticationToken?> GetAccessToken(string code, CancellationToken cancellationToken)
     {  
             _httpClient.DefaultRequestHeaders.Accept.Add(

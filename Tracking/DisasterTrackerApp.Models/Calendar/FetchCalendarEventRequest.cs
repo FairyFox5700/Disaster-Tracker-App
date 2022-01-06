@@ -1,4 +1,4 @@
-using DisasterTrackerApp.Models.Auth;
+using DisasterTrackerApp.Models.GoogleOAuth;
 
 namespace DisasterTrackerApp.Models.Calendar;
 

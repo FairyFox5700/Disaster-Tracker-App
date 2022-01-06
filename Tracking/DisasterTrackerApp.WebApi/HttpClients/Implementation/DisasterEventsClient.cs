@@ -1,4 +1,5 @@
 using DisasterTrackerApp.Models.ApiModels;
+using DisasterTrackerApp.Models.ApiModels.Base;
 using DisasterTrackerApp.Models.Disaster;
 using DisasterTrackerApp.Utils.Extensions;
 using DisasterTrackerApp.WebApi.HttpClients.Contract;

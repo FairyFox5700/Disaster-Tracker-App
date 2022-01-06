@@ -1,110 +1,118 @@
+using DisasterTrackerApp.BL.Contract;
+using DisasterTrackerApp.Dal.Repositories.Contract;
+using DisasterTrackerApp.Entities;
+using DisasterTrackerApp.Models.Configuration;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Calendar.v3;
 using Google.Apis.Calendar.v3.Data;
 using Google.Apis.Services;
+using Microsoft.Extensions.Options;
 
 namespace DisasterTrackerApp.BL.Implementation;
 
-public class GoogleCalendarService
+public class GoogleCalendarService : IGoogleCalendarService
 {
-    private const string CalendarId = "primary";
-    private const string WebHookAddress = "www.vnocsymphony.com/google/notifications";
+    private readonly IGoogleApiAccessService _apiAccessService;
+    private readonly IGoogleUserRepository _usersRepository;
+    private readonly GoogleWebHookOptions _webHookConfiguration;
 
-    public GoogleCalendarService()
+    public GoogleCalendarService(
+        IGoogleApiAccessService apiAccessService,
+        IGoogleUserRepository usersRepository,
+        IOptions<GoogleWebHookOptions> webHookConfiguration)
     {
-
+        _apiAccessService = apiAccessService;
+        _usersRepository = usersRepository;
+        _webHookConfiguration = webHookConfiguration.Value;
     }
 
-    /// <summary>
-    /// Method to get all existing events for user
-    /// </summary>
-    /// <param name="token"></param>
-    /// <returns></returns>
-    public async Task<Events> GetCalendarEventsAsync(string token)
+    private async Task<CalendarService> InitializeCalendarService(Guid userId)
     {
-        var googleCredentials = GoogleCredential.FromAccessToken(token);
+        var accessToken = await GetUserAccessTokenAsync(userId);
+        var googleCredentials = GoogleCredential.FromAccessToken(accessToken);
         var service = new CalendarService(new BaseClientService.Initializer
         {
-            HttpClientInitializer = googleCredentials,
+            HttpClientInitializer = googleCredentials
         });
-        
-        EventsResource.ListRequest request = service.Events.List(CalendarId);
+
+        return service;
+    }
+
+    public async Task<IEnumerable<GoogleCalendar>> GetUserCalendarsAsync(Guid userId)
+    {
+        var service = await InitializeCalendarService(userId);
+        var request = service.CalendarList.List();
+        //var request = service.Calendars.Get("primary"); // todo
+        var calendarList = await request.ExecuteAsync();
+
+        if (calendarList?.Items == null || calendarList.Items.Any() == false)
+        {
+            return new List<GoogleCalendar>();
+        }
+
+        var calendars = calendarList.Items.Select(c => new GoogleCalendar
+        {
+            Description = c.Description,
+            GoogleCalendarId = c.Id,
+            Primary = c.Primary,
+            Summary = c.Summary,
+            UserId = userId
+        }).ToList();
+
+        return calendars;
+    }
+
+    public async Task<IEnumerable<Event>> GetUserEventsAsync(Guid userId, string googleCalendarId,
+        DateTime? updatedAfter = null)
+    {
+        var service = await InitializeCalendarService(userId);
+        var request = service.Events.List(googleCalendarId);
+        // var request = service.Events.List("primary"); //todo
+        request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
         request.TimeMin = DateTime.Now;
-        request.ShowDeleted = false;
         request.SingleEvents = true;
-        request.MaxResults = 10;
-        request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
-        Events events = await request.ExecuteAsync();
-        return events;
-    }
-    //https://github.com/quynhnhu-cute/BEAUTY-COSMETICS/tree/0017620091deb8918be9a42b8c063ed1ad0ef540
-    //https://github.com/anikdey96/CSE_DEPARTMENT/blob/467231204e583b2fc5395ab98bf263c28a856fe0/Controllers/GoogleClassRoomController.cs
-    //https://github.com/2-men-team/disaster-tracker/blob/3c0c451b580ac6b524b86f3687bb73c1952c07a4/src/main/java/com/github/twomenteam/disastertracker/service/impl/GoogleApiServiceImpl.java
-    
-    //TODO pass calendar id 
-    //TODO check format of date
-    public async Task<Events> GetCalendarEventsAsyncByDate(string token, DateTime dateTime)
-    {
-        var googleCredentials = GoogleCredential.FromAccessToken(token);
-        var service = new CalendarService(new BaseClientService.Initializer
+        request.ShowDeleted = true;
+        request.UpdatedMin = updatedAfter;
+        var calendarEvents = await request.ExecuteAsync();
+
+        if (calendarEvents?.Items == null || calendarEvents.Items.Any() == false)
         {
-            HttpClientInitializer = googleCredentials,
-        });
-        EventsResource.ListRequest request = service.Events.List(CalendarId);
-        request.UpdatedMin = dateTime;
-        request.ShowDeleted = false;
-        request.SingleEvents = true;
-        request.MaxResults = 10;
-        request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
-        Events events = await request.ExecuteAsync();
-        return events;
+            return new List<Event>();
+        }
+
+        return calendarEvents.Items;
     }
 
-    public async Task<Channel> WatchEvents(string token, string apiKey)
+    private async Task<string> GetUserAccessTokenAsync(Guid userId)
     {
-        var googleCredentials = GoogleCredential.FromAccessToken(token);
-        var service = new CalendarService(new BaseClientService.Initializer
+        var user = await _usersRepository.FindUserAsync(userId);
+        if (user is null)
         {
-            HttpClientInitializer = googleCredentials,
-        });
-        return await service.Events.Watch(BuildWatchChannel( apiKey), CalendarId).ExecuteAsync();
+            return string.Empty;
+        }
+
+        await _apiAccessService.TryRefreshAccessTokenForUserAsync(userId);
+
+        return user.AccessToken;
     }
-    private Channel BuildWatchChannel( string apiKey)
+
+    public async Task<Channel> WatchEvents(Guid userId, Guid calendarId)
     {
-        Channel c = new Channel
+        var service = await InitializeCalendarService(userId);
+
+        return await service.Events.Watch(BuildWatchChannel(userId, calendarId), calendarId.ToString()).ExecuteAsync();
+    }
+
+    private Channel BuildWatchChannel(Guid userId, Guid calendarId)
+    {
+        return new Channel
         {
-            Address = WebHookAddress,
+            Address = _webHookConfiguration.WebHookUrl,
             Id = Guid.NewGuid().ToString(),
             Type = "web_hook",
-            Token = apiKey, // space Id could go here
+            Token = userId.ToString(),
             Expiration = long.MaxValue,
-            //ResourceUri = @"https://www.googleapis.com/calendar/v3/calendars/" + calendarid+ "/events"
+            ResourceUri = @$"https://www.googleapis.com/calendar/v3/calendars/{calendarId}/events/watch"
         };
-        return c;
     }
 }
-/*
-public Mono<Void> updateCalendarEvents(FetchedCalendarEvent event) {
-    var newCalendarEvent = event.getCalendarEvent();
-
-    if (event.getStatus() == FetchedCalendarEvent.Status.DELETE) {
-        return calendarEventRepository.deleteAllByGoogleIdAndUserId(
-            newCalendarEvent.getGoogleId(), newCalendarEvent.getUserId());
-    }
-
-    return calendarEventRepository
-        .findByGoogleIdAndUserId(newCalendarEvent.getGoogleId(), newCalendarEvent.getUserId())
-        .flatMap(oldEvent -> warningRepository
-            .deleteAllByCalendarEventId(oldEvent.getId())
-            .thenReturn(oldEvent))
-        .map(oldEvent -> oldEvent.toBuilder()
-            .start(newCalendarEvent.getStart())
-            .end(newCalendarEvent.getEnd())
-            .summary(newCalendarEvent.getSummary())
-            .location(newCalendarEvent.getLocation())
-            .build()
-            .withCoordinates(newCalendarEvent.getCoordinates()))
-        .switchIfEmpty(Mono.just(newCalendarEvent))
-        .flatMap(calendarEventRepository::save)
-        .then();
-}*/

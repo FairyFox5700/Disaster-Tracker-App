@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace DisasterTrackerApp.Models.ApiModels;
+namespace DisasterTrackerApp.Models.ApiModels.Base;
 
 public class ApiError
 {
@@ -18,4 +18,10 @@ public enum ErrorCode
 {
     [Description("Internal error")]
     InternalError,
+    
+    [Description("Invalid request format")]
+    InvalidRequestFormat,
+    
+    [Description("Login failed")]
+    LoginError
 }

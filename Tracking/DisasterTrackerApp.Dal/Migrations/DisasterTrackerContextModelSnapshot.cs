@@ -29,21 +29,16 @@ namespace DisasterTrackerApp.Dal.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("CalendarId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("CalendarId1")
+                    b.Property<Guid>("CalendarId")
                         .HasColumnType("uuid");
 
-                    b.Property<Point>("Coordiantes")
-                        .IsRequired()
+                    b.Property<Point>("Coordinates")
                         .HasColumnType("geometry");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime>("EndTs")
+                    b.Property<DateTime?>("EndTs")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("GoogleEventId")
@@ -53,7 +48,7 @@ namespace DisasterTrackerApp.Dal.Migrations
                     b.Property<string>("Location")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("StartedTs")
+                    b.Property<DateTime?>("StartedTs")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Summary")
@@ -64,7 +59,7 @@ namespace DisasterTrackerApp.Dal.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CalendarId1");
+                    b.HasIndex("CalendarId");
 
                     b.HasIndex("GoogleEventId")
                         .IsUnique();
@@ -163,11 +158,21 @@ namespace DisasterTrackerApp.Dal.Migrations
                     b.Property<DateTimeOffset>("ExpiresIn")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<DateTime?>("LastDataUpdate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("RefreshToken")
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("UserGoogleId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("UserId");
+
+                    b.HasIndex("UserGoogleId")
+                        .IsUnique();
 
                     b.ToTable("GoogleUsers");
                 });
@@ -176,7 +181,7 @@ namespace DisasterTrackerApp.Dal.Migrations
                 {
                     b.HasOne("DisasterTrackerApp.Entities.GoogleCalendar", "Calendar")
                         .WithMany("CalendarEvents")
-                        .HasForeignKey("CalendarId1")
+                        .HasForeignKey("CalendarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

@@ -5,23 +5,37 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DisasterTrackerApp.Dal.Repositories.Implementation;
 
-public class CalendarRepository: ICalendarRepository
-{
+public class CalendarRepository : ICalendarRepository
+{    
     private readonly DisasterTrackerContext _context;
 
     public CalendarRepository(DisasterTrackerContext context)
     {
         _context = context;
     }
-    public Task<List<CalendarEvent>> GetCalendarEventsFiltered(Expression<Func<CalendarEvent, bool>> predicate)
+    
+    public async Task SaveCalendarsAsync(IEnumerable<GoogleCalendar> calendars)
     {
-        return _context.CalendarEvents
+        await _context.Calendars.AddRangeAsync(calendars);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task<GoogleCalendar?> GetCalendarAsync(Guid calendarId)
+    {
+        return await _context.Calendars.FindAsync(calendarId);
+    }
+
+    public async Task<IEnumerable<GoogleCalendar>> GetCalendarsFilteredAsync(Expression<Func<GoogleCalendar, bool>> predicate)
+    {
+        return await _context.Calendars
             .Where(predicate)
             .ToListAsync();
     }
 
-    public void DeleteCalendarEventsForUser(string userId, List<CalendarEvent> events)
+    public async Task RemoveCalendarsAsync(IEnumerable<GoogleCalendar> calendars)
     {
-        _context.CalendarEvents.RemoveRange(events);
+        _context.Calendars.RemoveRange(calendars);
+        await _context.SaveChangesAsync();
+
     }
 }

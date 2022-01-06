@@ -23,6 +23,8 @@ public static class DependencyInjectionInstaller
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         services.AddTransient<IDisasterEventRepository, DisasterEventRepository>();
+        services.AddTransient<ICalendarEventsRepository, CalendarEventsRepository>();
+        services.AddTransient<IGoogleUserRepository, GoogleUserRepository>();
         services.AddTransient<ICalendarRepository, CalendarRepository>();
         return services;
     }

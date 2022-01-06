@@ -27,13 +27,13 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\DisasterTrackerApp.BL\DisasterTrackerApp.BL.csproj" />
       <ProjectReference Include="..\DisasterTrackerApp.Dal\DisasterTrackerApp.Dal.csproj" />
       <ProjectReference Include="..\DisasterTrackerApp.Models\DisasterTrackerApp.Models.csproj" />
     </ItemGroup>
 
     <ItemGroup>
       <Content Remove="client_credentional.json" />
-      <Resource Include="client_credentional.json" />
     </ItemGroup>
 
 </Project>

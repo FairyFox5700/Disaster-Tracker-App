@@ -1,7 +1,7 @@
 using System.Runtime.Serialization;
 using DisasterTrackerApp.Utils.Extensions;
 
-namespace DisasterTrackerApp.Models.ApiModels;
+namespace DisasterTrackerApp.Models.ApiModels.Base;
 
 public class ApiResponse
     {
