@@ -1,5 +1,6 @@
 using DisasterTrackerApp.BL.Contract;
 using DisasterTrackerApp.BL.Mappers.Contract;
+using DisasterTrackerApp.BL.Mappers.Implementation;
 using DisasterTrackerApp.Dal.Repositories.Contract;
 using DisasterTrackerApp.Entities;
 using DisasterTrackerApp.Models.Calendar;
@@ -16,7 +17,7 @@ public class UsersGoogleCalendarDataUpdatingService : IUsersGoogleCalendarDataUp
     private readonly IGoogleUserRepository _userRepository;
     private readonly ICalendarEventMapper _eventConverter;
     private readonly IGoogleCalendarService _calendarService;
-    private readonly ITempRedis _redis;
+    private readonly IRedisWatchChannelsRepository _watchChannelsRepository;
 
     public UsersGoogleCalendarDataUpdatingService(
         ILogger<UsersGoogleCalendarDataUpdatingService> logger,
@@ -25,7 +26,7 @@ public class UsersGoogleCalendarDataUpdatingService : IUsersGoogleCalendarDataUp
         ICalendarEventMapper eventConverter,
         IGoogleUserRepository userRepository, 
         IGoogleCalendarService calendarService,
-        ITempRedis redis)
+        IRedisWatchChannelsRepository watchChannelsRepository)
     {
         _logger = logger;
         _calendarRepository = calendarRepository;
@@ -33,7 +34,7 @@ public class UsersGoogleCalendarDataUpdatingService : IUsersGoogleCalendarDataUp
         _eventConverter = eventConverter;
         _userRepository = userRepository;
         _calendarService = calendarService;
-        _redis = redis;
+        _watchChannelsRepository = watchChannelsRepository;
     }
 
     public async Task UpdateUserData(GoogleUser user)
@@ -43,11 +44,14 @@ public class UsersGoogleCalendarDataUpdatingService : IUsersGoogleCalendarDataUp
         {
             return;
         }
-        
-        await _userRepository.SetLastVisitDateTime(user);
-        
+
         var events = await _calendarService.GetUserEventsAsync(user.UserId, primaryCalendar.GoogleCalendarId, user.LastVisit);
-        await UpdateCalendarEvents(primaryCalendar.Id, events);
+        var success = await UpdateCalendarEvents(primaryCalendar.Id, events);
+
+        if (success)
+        {
+            await _userRepository.SetLastLoginDataUpdateDateTime(user);
+        }
     }
 
     public async Task<string?> RegisterWatch(Guid userId)
@@ -71,9 +75,15 @@ public class UsersGoogleCalendarDataUpdatingService : IUsersGoogleCalendarDataUp
         return await _calendarService.StopWatchEvents(channelToken);
     }
 
-    public async Task UpdateCalendarEventsOnDemand(string channelToken, DateTime triggerTime)
+    public async Task UpdateCalendarEventsOnWebHook(string channelToken, DateTime triggerTime)
     {
-        var watchData = _redis.Get<WatchData>(channelToken);
+        var watchData = WatchChannelDataMapper.MapChannelDataEntityToDto(_watchChannelsRepository.GetWatchChannel(channelToken));
+        if (watchData == null)
+        {
+            _logger.LogWarning("Cannot find watch channel by token {Token}", channelToken);
+            return;
+        }
+        
         var calendar = (await _calendarRepository.GetFilteredAsync(c => c.UserId == watchData.UserId))
                         .FirstOrDefault();
         
@@ -88,7 +98,7 @@ public class UsersGoogleCalendarDataUpdatingService : IUsersGoogleCalendarDataUp
         var events = await _calendarService.GetUserEventsAsync(watchData.UserId, calendar.GoogleCalendarId, watchData.LastTimeTriggered);
         await UpdateCalendarEvents(calendar.Id, events);
         
-        _redis.Set(channelToken, watchData.UpdateTriggerTime(triggerTime));
+        _watchChannelsRepository.Save(channelToken, WatchChannelDataMapper.MapChannelDataDtoToEntity(watchData.UpdateTriggerTime(triggerTime)));
     }
 
     private async Task<GoogleCalendar?> UpdateUserCalendar(Guid userId)
@@ -115,27 +125,37 @@ public class UsersGoogleCalendarDataUpdatingService : IUsersGoogleCalendarDataUp
         return primaryCalendar;
     }
 
-    private async Task UpdateCalendarEvents(Guid calendarId, IEnumerable<Event> calendarEvents)
+    private async Task<bool> UpdateCalendarEvents(Guid calendarId, IEnumerable<Event> calendarEvents)
     {
-        var changedCalendarEvents = calendarEvents.ToList();
-        var existingCalendarEvents = (await _calendarEventsRepository.GetFilteredAsync(
-                e => e.CalendarId == calendarId))
-            .ToList();
+        try
+        {
+            var changedCalendarEvents = calendarEvents.ToList();
+            var existingCalendarEvents = (await _calendarEventsRepository.GetFilteredAsync(
+                    e => e.CalendarId == calendarId))
+                .ToList();
 
-        var eventsToDelete = changedCalendarEvents
-            .Select(e => e.Id)
-            .Intersect(existingCalendarEvents.Select(e => e.GoogleEventId))
-            .Select(id => existingCalendarEvents.First(e => e.GoogleEventId == id));
-        
-        await _calendarEventsRepository.RemoveUserEventsAsync(eventsToDelete);
+            var eventsToDelete = changedCalendarEvents
+                .Select(e => e.Id)
+                .Intersect(existingCalendarEvents.Select(e => e.GoogleEventId))
+                .Select(id => existingCalendarEvents.First(e => e.GoogleEventId == id));
 
-        await RemoveOutdatedCalendarEvents(existingCalendarEvents);
+            await _calendarEventsRepository.RemoveUserEventsAsync(eventsToDelete);
 
-        var updatedEvents = await Task.WhenAll(changedCalendarEvents
-            .Where(e => e.Status != "cancelled")
-            .Select(async e => await _eventConverter.ToCalendarEventEntity(e, calendarId)));
+            await RemoveOutdatedCalendarEvents(existingCalendarEvents);
 
-        await _calendarEventsRepository.SaveRangeAsync(updatedEvents);
+            var updatedEvents = await Task.WhenAll(changedCalendarEvents
+                .Where(e => e.Status != "cancelled")
+                .Select(async e => await _eventConverter.ToCalendarEventEntity(e, calendarId)));
+
+            await _calendarEventsRepository.SaveRangeAsync(updatedEvents);
+
+            return true;
+        }
+        catch (Exception exception)
+        {
+            return false;
+        }
+
     }
 
     private async Task RemoveOutdatedCalendarEvents(IEnumerable<CalendarEvent> calendarEvents)

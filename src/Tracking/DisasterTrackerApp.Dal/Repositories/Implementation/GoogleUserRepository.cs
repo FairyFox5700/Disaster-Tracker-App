@@ -60,7 +60,7 @@ public class GoogleUserRepository : IGoogleUserRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task SetLastVisitDateTime(GoogleUser user)
+    public async Task SetLastLoginDataUpdateDateTime(GoogleUser user)
     {
         user.LastVisit = DateTime.UtcNow;
         await _context.SaveChangesAsync();

@@ -37,7 +37,6 @@ public static class BalDependencyInjection
         services.AddScoped<ICalendarEventMapper, CalendarEventMapper>();
         services.AddScoped<IUsersGoogleCalendarDataUpdatingService, UsersGoogleCalendarDataUpdatingService>();
         services.AddScoped<IGoogleGeocoderService, GoogleGeocoderService>();
-        services.AddSingleton<ITempRedis, TempRedis>();
 
         return services;
     }

@@ -1,13 +1,13 @@
 namespace DisasterTrackerApp.Models.Calendar;
 
-public class WatchData
+public class WatchChannelData
 {
     public Guid UserId { get; set; }
     public string ChannelId { get; set; }
     public string ResourceId { get; set; }
     public DateTime LastTimeTriggered { get; set; }
 
-    public WatchData(Guid userId, string channelId, string resourceId, DateTime? triggerTime = null)
+    public WatchChannelData(Guid userId, string channelId, string resourceId, DateTime? triggerTime = null)
     {
         UserId = userId;
         ChannelId = channelId;
@@ -15,7 +15,7 @@ public class WatchData
         LastTimeTriggered = triggerTime ?? DateTime.UtcNow;
     }
 
-    public WatchData UpdateTriggerTime(DateTime lastTriggerTime)
+    public WatchChannelData UpdateTriggerTime(DateTime lastTriggerTime)
     {
         LastTimeTriggered = lastTriggerTime;
 

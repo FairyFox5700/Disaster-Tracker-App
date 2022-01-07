@@ -26,7 +26,7 @@ public class CalendarController : ControllerBase
             return Ok();
         }
         
-        await _calendarUpdateService.UpdateCalendarEventsOnDemand(token, DateTime.UtcNow);
+        await _calendarUpdateService.UpdateCalendarEventsOnWebHook(token, DateTime.UtcNow);
         return Ok();
     }
 

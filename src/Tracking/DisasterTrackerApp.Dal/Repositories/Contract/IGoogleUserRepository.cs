@@ -10,5 +10,5 @@ public interface IGoogleUserRepository
     Task AddAsync(GoogleUser googleUser);
     Task UpdateAccessTokenAsync(Guid userId, string newAccessToken, long expiresIn);
     Task UpdateTokensAsync(Guid userId, string newAccessToken, DateTimeOffset expiresAt, string newRefreshToken);
-    Task SetLastVisitDateTime(GoogleUser user);
+    Task SetLastLoginDataUpdateDateTime(GoogleUser user);
 }

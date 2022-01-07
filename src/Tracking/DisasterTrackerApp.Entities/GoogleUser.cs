@@ -35,7 +35,7 @@ public class GoogleUser
     [NotMapped]
     public bool IsExpired => DateTimeOffset.UtcNow >= ExpiresIn;
 
-    public DateTime? LastVisit { get; set; }
+    public DateTime? LastVisit { get; set; } // todo rename to LastLoginDataUpdate 
     
     #region  FK
     public  List<GoogleCalendar>? Calendars { get; set; }

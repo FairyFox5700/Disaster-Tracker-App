@@ -17,13 +17,13 @@ public class GoogleCalendarService : IGoogleCalendarService
     private readonly IGoogleApiAccessService _apiAccessService;
     private readonly IGoogleUserRepository _usersRepository;
     private readonly GoogleWebHookOptions _webHookConfiguration;
-    private readonly ITempRedis _redis;
+    private readonly IRedisWatchChannelsRepository _redis;
     
     public GoogleCalendarService(
         IGoogleApiAccessService apiAccessService,
         IGoogleUserRepository usersRepository,
         IOptions<GoogleWebHookOptions> webHookConfiguration, 
-        ITempRedis redis)
+        IRedisWatchChannelsRepository redis)
     {
         _apiAccessService = apiAccessService;
         _usersRepository = usersRepository;
@@ -100,7 +100,7 @@ public class GoogleCalendarService : IGoogleCalendarService
 
         var channel =  await service.Events.Watch(BuildWatchChannel(token, googleCalendarId), googleCalendarId).ExecuteAsync();
 
-        var watchData = new WatchData(userId, channel.Id, channel.ResourceId);
+        var watchData = new WatchChannelData(userId, channel.Id, channel.ResourceId);
         _redis.Set(token, watchData);
 
         return channel;
@@ -108,7 +108,7 @@ public class GoogleCalendarService : IGoogleCalendarService
 
     public async Task<bool> StopWatchEvents(string channelToken)
     {
-        var watchData = _redis.Get<WatchData>(channelToken);
+        var watchData = _redis.Get<WatchChannelData>(channelToken);
         var service = await InitializeCalendarService(watchData.UserId);
 
         var channel = new Channel

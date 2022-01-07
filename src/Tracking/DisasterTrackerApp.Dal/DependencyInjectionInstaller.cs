@@ -52,6 +52,8 @@ public static class DependencyInjectionInstaller
         services.AddTransient<ICalendarEventsRepository, CalendarEventsRepository>();
         services.AddTransient<IGoogleUserRepository, GoogleUserRepository>();
         services.AddTransient<IRedisDisasterEventsRepository, RedisDisasterEventsRepository>();
+        services.AddTransient<IRedisWatchChannelsRepository, RedisWatchChannelsRepository>();
+        
         return services;
     }
 }

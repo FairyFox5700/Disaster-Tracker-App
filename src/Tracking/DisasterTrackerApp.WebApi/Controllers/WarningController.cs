@@ -31,6 +31,7 @@ public class WarningController : ControllerBase
                 return e;
             })
             .ToTask(cancellationToken);
-       
+
+       // todo destroy channel var test = 1 + 2;
     }
 }
