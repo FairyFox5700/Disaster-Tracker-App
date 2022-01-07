@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Google.Apis.Auth" Version="1.55.0" />
+        <PackageReference Include="Google.Apis.Auth.AspNetCore3" Version="1.55.0" />
+        <PackageReference Include="Google.Apis.Calendar.v3" Version="1.55.0.2500" />
+        <PackageReference Include="Hangfire" Version="1.7.28" />
+        <PackageReference Include="Hangfire.AspNetCore" Version="1.7.28" />
+        <PackageReference Include="Hangfire.PostgreSql" Version="1.9.5" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.1">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="6.0.1" />
+        <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="6.0.1" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.2" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NetTopologySuite" Version="6.0.2" />
+        <PackageReference Include="Polly" Version="7.2.2" />
+        <PackageReference Include="Polly.Extensions.Http" Version="3.0.0" />
+        <PackageReference Include="StackExchange.Redis" Version="2.2.88" />
+        <PackageReference Include="StackExchange.Redis.Extensions.AspNetCore" Version="7.2.1" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\DisasterTrackerApp.BL\DisasterTrackerApp.BL.csproj" />
+      <ProjectReference Include="..\DisasterTrackerApp.Dal\DisasterTrackerApp.Dal.csproj" />
+      <ProjectReference Include="..\DisasterTrackerApp.Models\DisasterTrackerApp.Models.csproj" />
+        <PackageReference Include="System.Reactive" Version="5.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Remove="client_credentional.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\DisasterTrackerApp.BL\DisasterTrackerApp.BL.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="client_credentials.json" />
+    </ItemGroup>
+
+</Project>
