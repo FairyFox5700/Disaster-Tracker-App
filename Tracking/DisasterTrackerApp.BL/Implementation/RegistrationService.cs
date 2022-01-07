@@ -36,32 +36,29 @@ public class RegistrationService : IRegistrationService
         }
 
         await SaveNewUser(user);
-        //await _updatingService.UpdateUserData(user);
         
         return user.UserId;
     }
 
-    public async Task<DateTime?> LoginUser(Guid userId)
+    public async Task<string?> LoginUser(Guid userId)
     {
         var activeUser = await GetUser(u => u.UserId.Equals(userId));
         if (activeUser == null)
         {
-            return default;
+            return null;
         }
-
-        var lastDataUpdateTime = activeUser.LastDataUpdate;
-
+        
         var tokenRefreshed = await _apiAccessService.TryRefreshAccessTokenForUserAsync(activeUser.UserId);
         if (tokenRefreshed == false)
         {
-            return default;
+            return null;
         }
         
         await _updatingService.UpdateUserData(activeUser);
 
-        await _updatingService.RegisterWatch(userId);
+        var watchToken = await _updatingService.RegisterWatch(userId);
         
-        return lastDataUpdateTime;
+        return watchToken;
     }
     
     private async Task SaveNewUser(GoogleUser user)

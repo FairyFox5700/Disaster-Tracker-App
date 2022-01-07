@@ -27,6 +27,9 @@ public static class DependencyInjectionInstaller
         services.AddScoped<ICalendarEventConverter, CalendarEventConverter>();
         services.AddScoped<IUsersGoogleCalendarDataUpdatingService, UsersGoogleCalendarDataUpdatingService>();
         services.AddScoped<IGoogleGeocoderService, GoogleGeocoderService>();
+
+        services.AddSingleton<ITempRedis, TempRedis>();
+        
         return services;
     }
 }

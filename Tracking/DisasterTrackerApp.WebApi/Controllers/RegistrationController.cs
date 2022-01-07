@@ -79,20 +79,20 @@ public class UsersController : ControllerBase
             return BadRequest(new ApiError(ErrorCode.InvalidRequestFormat, "Invalid user id format"));
         }
         
-        var lastVisitTime = await _registrationService.LoginUser(userIdGuid);
-        if (lastVisitTime == default)
+        var watchToken = await _registrationService.LoginUser(userIdGuid);
+        if (watchToken == null)
         {
             var errorMessage = "Something bad happened. " +
                                "Unable to login user because of network failure or user doesn't exist";
             
             return Unauthorized(new ApiError(ErrorCode.LoginError, errorMessage));
         }
-        
+
         var response = new LoginResponse
         {
-            LastVisitDateTime = lastVisitTime.Value
+            WatchToken = watchToken
         };
-
+        
         return Ok(new ApiResponse<LoginResponse>(response));
     }
 }

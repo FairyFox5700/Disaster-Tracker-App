@@ -5,8 +5,8 @@ namespace DisasterTrackerApp.Dal.Repositories.Contract;
 
 public interface ICalendarRepository
 {
-    Task SaveCalendarsAsync(IEnumerable<GoogleCalendar> calendars);
-    Task<GoogleCalendar?> GetCalendarAsync(Guid calendarId);
-    Task<IEnumerable<GoogleCalendar>> GetCalendarsFilteredAsync(Expression<Func<GoogleCalendar, bool>> predicate);
-    Task RemoveCalendarsAsync(IEnumerable<GoogleCalendar> calendars);
+    Task SaveAsync(GoogleCalendar calendar);
+    Task UpdateAsync(GoogleCalendar oldCalendar, GoogleCalendar calendar);
+    Task<GoogleCalendar?> GetAsync(Guid calendarId);
+    Task<IEnumerable<GoogleCalendar>> GetFilteredAsync(Expression<Func<GoogleCalendar, bool>> predicate);
 }

@@ -5,7 +5,8 @@ namespace DisasterTrackerApp.BL.Contract;
 
 public interface IGoogleCalendarService
 {
-    Task<IEnumerable<GoogleCalendar>> GetUserCalendarsAsync(Guid userId);
+    Task<GoogleCalendar?> GetUserCalendarAsync(Guid userId);
     Task<IEnumerable<Event>> GetUserEventsAsync(Guid userId, string calendarId, DateTime? updatedAfter = null);
-    Task<Channel> WatchEvents(Guid userId, Guid calendarId);
+    Task<Channel> WatchEvents(Guid userId, string googleCalendarId);
+    Task<bool> StopWatchEvents(string channelToken);
 }

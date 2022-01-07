@@ -18,7 +18,7 @@ public class GoogleOAuthHttpClient : IGoogleOAuthHttpClient
         _credentials = credentialOptions.Value;
     }
 
-    public async Task<AuthTokenResponse?> ExchangeCode(string code, CancellationToken cancellationToken)
+    public async Task<AccessTokenExchangeResponse?> ExchangeCode(string code, CancellationToken cancellationToken)
     {
         _httpClient.DefaultRequestHeaders.Accept.Add(
             new MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded"));
@@ -40,7 +40,7 @@ public class GoogleOAuthHttpClient : IGoogleOAuthHttpClient
         var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
         
         return !response.IsSuccessStatusCode ? null :
-            HttpClientExtensions.DeserializeJsonFromStream<AuthTokenResponse>(stream);
+            HttpClientExtensions.DeserializeJsonFromStream<AccessTokenExchangeResponse>(stream);
     }
 
     public async Task<RefreshAccessTokenResponse?> RefreshAccessToken(string refreshToken)

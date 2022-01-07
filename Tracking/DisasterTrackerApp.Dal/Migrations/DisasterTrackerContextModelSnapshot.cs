@@ -158,7 +158,7 @@ namespace DisasterTrackerApp.Dal.Migrations
                     b.Property<DateTimeOffset>("ExpiresIn")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime?>("LastDataUpdate")
+                    b.Property<DateTime?>("LastVisit")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("RefreshToken")

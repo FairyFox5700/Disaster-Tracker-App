@@ -4,5 +4,6 @@ public class GoogleWebHookOptions
 {
     public static string Section = "GoogleWebHook";
     
-    public string WebHookUrl { get; set; }   
+    public string Address { get; set; }
+    public string Url { get; set; }
 }

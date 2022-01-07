@@ -14,28 +14,32 @@ public class CalendarRepository : ICalendarRepository
         _context = context;
     }
     
-    public async Task SaveCalendarsAsync(IEnumerable<GoogleCalendar> calendars)
+    public async Task SaveAsync(GoogleCalendar calendar)
     {
-        await _context.Calendars.AddRangeAsync(calendars);
+        await _context.Calendars.AddAsync(calendar);
         await _context.SaveChangesAsync();
     }
 
-    public async Task<GoogleCalendar?> GetCalendarAsync(Guid calendarId)
+    public async Task<GoogleCalendar?> GetAsync(Guid calendarId)
     {
         return await _context.Calendars.FindAsync(calendarId);
     }
 
-    public async Task<IEnumerable<GoogleCalendar>> GetCalendarsFilteredAsync(Expression<Func<GoogleCalendar, bool>> predicate)
+    public async Task<IEnumerable<GoogleCalendar>> GetFilteredAsync(Expression<Func<GoogleCalendar, bool>> predicate)
     {
         return await _context.Calendars
             .Where(predicate)
             .ToListAsync();
     }
 
-    public async Task RemoveCalendarsAsync(IEnumerable<GoogleCalendar> calendars)
+    public async Task UpdateAsync(GoogleCalendar oldCalendar, GoogleCalendar newCalendar)
     {
-        _context.Calendars.RemoveRange(calendars);
+        /*newCalendar.Id = oldCalendar.Id;
+        _context.Entry(oldCalendar).CurrentValues.SetValues(newCalendar);*/
+        
+        oldCalendar.Description = newCalendar.Description;
+        oldCalendar.Summary = newCalendar.Summary;
+        
         await _context.SaveChangesAsync();
-
     }
 }
