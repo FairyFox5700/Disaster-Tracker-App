@@ -9,6 +9,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+ConfigureAppConfiguration(builder.Host);
 builder.Services.AddBalDependencies(builder.Configuration);
 builder.Services.AddDalDependencies(builder.Configuration);
 var app = builder.Build();
@@ -29,3 +30,13 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+void ConfigureAppConfiguration(ConfigureHostBuilder configureBuilder)
+{
+    configureBuilder.ConfigureAppConfiguration((_, config) =>
+    {
+        config.AddJsonFile("client_credentials.json",
+            optional: true,
+            reloadOnChange: true);
+    });
+}

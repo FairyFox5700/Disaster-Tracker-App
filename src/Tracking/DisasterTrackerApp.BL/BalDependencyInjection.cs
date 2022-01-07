@@ -79,6 +79,4 @@ public static class BalDependencyInjection
 
         return services;
     }
-        
-    
 }
