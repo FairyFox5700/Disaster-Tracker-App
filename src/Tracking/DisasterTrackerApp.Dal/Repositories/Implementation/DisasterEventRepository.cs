@@ -23,4 +23,13 @@ public class DisasterEventRepository : IDisasterEventRepository
     {
         return await _context.DisasterEvent.Where(predicate).ToListAsync();
     }
+    public async Task<DisasterEvent?> GetLastDisasterEventByClosedTime() 
+    {
+        return await _context.DisasterEvent.OrderByDescending(x => x.Closed).FirstOrDefaultAsync().ConfigureAwait(false);
+    }
+    public async Task AddEvents(IEnumerable<DisasterEvent> disasterEvents)
+    {
+        await _context.AddRangeAsync(disasterEvents).ConfigureAwait(false);
+        await _context.SaveChangesAsync().ConfigureAwait(false);
+    }
 }

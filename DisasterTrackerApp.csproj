@@ -12,6 +12,10 @@
 
     <ItemGroup>
       <PackageReference Include="Google.Apis.Calendar.v3" Version="1.55.0.2500" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.1">
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        <PrivateAssets>all</PrivateAssets>
+      </PackageReference>
     </ItemGroup>
 
 </Project>
