@@ -13,23 +13,28 @@ namespace DisasterTrackerApp.BL.HttpClients.Implementation
         {
             _httpClient = httpClient;
         }
-        public async Task<ApiResponse<List<FeatureDto?>?>> GetDisasterEventsAsync()
+        public async Task<ApiResponse<List<FeatureDto>>> GetDisasterEventsAsync(CancellationToken cancellationToken)
         {
             using var request = new HttpRequestMessage(HttpMethod.Get, _httpClient.BaseAddress);
-            using var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
-            var jsonResponse = await response.Content.ReadAsStringAsync();
+            using var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var jsonResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
             if (response.IsSuccessStatusCode)
-                return new ApiResponse<List<FeatureDto?>?>
+            {
+                var featureCollection = JsonConvert.DeserializeObject<FeatureCollectionDto>(jsonResponse);
+                if (featureCollection != null) 
                 {
-                    StatusCode = (int)response.StatusCode,
-                    Data = JsonConvert.DeserializeObject<FeatureCollectionDto>(jsonResponse).Features
-                };
-
-            return new ApiResponse<List<FeatureDto?>?>
+                    return new ApiResponse<List<FeatureDto>>
+                    {
+                        StatusCode = (int)response.StatusCode,
+                        Data = featureCollection.Features
+                    };
+                }
+            }
+            return new ApiResponse<List<FeatureDto>>
             {
                 StatusCode = (int)response.StatusCode,
-                Data = new List<FeatureDto?>(),
+                Data = new List<FeatureDto>(),
                 ResponseException = new ApiError(ErrorCode.InternalError, jsonResponse ?? ""),
             };
         }

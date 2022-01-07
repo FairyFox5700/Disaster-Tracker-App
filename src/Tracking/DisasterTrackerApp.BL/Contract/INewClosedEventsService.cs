@@ -2,6 +2,6 @@
 {
     public interface INewClosedEventsService
     {
-        public Task AddNewClosedEvents();
+        public Task AddNewClosedEvents(CancellationToken cancellationToken);
     }
 }

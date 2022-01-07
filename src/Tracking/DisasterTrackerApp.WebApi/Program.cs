@@ -7,7 +7,6 @@ using DisasterTrackerApp.WebApi.HttpClients.Contract;
 using DisasterTrackerApp.WebApi.HttpClients.Implementation;
 using DisasterTrackerApp.WebApi.Internal;
 using Hangfire;
-using Hangfire.SqlServer;
 using Hangfire.PostgreSql;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,22 +18,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-//builder.Services.AddHangfire(x => x.UseSqlServerStorage(builder
-//    .Configuration.GetConnectionString("DefaultConnection")));
-//builder.Services.AddHangfire(configuration => configuration
-//    .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
-//    .UseSimpleAssemblyNameTypeSerializer()
-//    .UseRecommendedSerializerSettings()
-//    .UseSqlServerStorage(builder
-//        .Configuration.GetConnectionString("DefaultConnection"),
-//        new SqlServerStorageOptions
-//    {
-//        CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
-//        SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
-//        QueuePollInterval = TimeSpan.Zero,
-//        UseRecommendedIsolationLevel = true,
-//        DisableGlobalLocks = true,
-//    }));
+
 builder.Services.AddHangfire(x => x.UsePostgreSqlStorage(builder
     .Configuration.GetConnectionString("DisasterTrackerConnection")));
 builder.Services.AddHttpClient<IDisasterEventsClient, DisasterEventsClient>(client =>
@@ -54,7 +38,7 @@ builder.Services.AddHangfireServer();
 builder.Services.AddScoped<INewClosedEventsService, NewClosedEventsService>();
 builder.Services.AddDalDependencies(builder.Configuration);
 var app = builder.Build();
-app.Services.GetService<IRecurringJobManager>().AddOrUpdate<INewClosedEventsService>("Check for new closed events", job => job.AddNewClosedEvents(), Cron.Daily, TimeZoneInfo.Utc);
+app.Services.GetService<IRecurringJobManager>().AddOrUpdate<INewClosedEventsService>("Check for new closed events", job => job.AddNewClosedEvents(CancellationToken.None), Cron.Daily, TimeZoneInfo.Utc);
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

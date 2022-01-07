@@ -13,8 +13,6 @@ public class DisasterTrackerContext:DbContext
 
     public virtual DbSet<CalendarEvent> CalendarEvents { get; set; } = default!;
     public virtual DbSet<DisasterEvent> DisasterEvent { get; set; } = default!;
-    public virtual DbSet<CategoryEntity> Categories { get; set; } = default!;
-    public virtual DbSet<SourceEntity> Sources { get; set; } = default!;
     public virtual DbSet<GoogleUser> GoogleUsers { get; set; } = default!;
     public virtual DbSet<GoogleCalendar> Calendars { get; set; } = default!;
 
