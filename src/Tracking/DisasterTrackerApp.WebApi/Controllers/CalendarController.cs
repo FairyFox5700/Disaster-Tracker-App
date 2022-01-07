@@ -6,18 +6,17 @@ using Microsoft.AspNetCore.Mvc;
 namespace DisasterTrackerApp.WebApi.Controllers;
 
 [ApiController]
-[Route("calendar/updates")]
-public class GoogleWebHookController : ControllerBase
+public class CalendarController : ControllerBase
 {
     private readonly IUsersGoogleCalendarDataUpdatingService _calendarUpdateService;
     
-    public GoogleWebHookController(IUsersGoogleCalendarDataUpdatingService calendarUpdateService)
+    public CalendarController(IUsersGoogleCalendarDataUpdatingService calendarUpdateService)
     {
         _calendarUpdateService = calendarUpdateService;
     }
 
     [ApiExplorerSettings(IgnoreApi = true)]
-    [HttpPost("receive")]
+    [HttpPost("receive-updates")]
     public async Task<IActionResult> ReceiveEventUpdate(
         [FromHeader(Name = "X-Goog-Channel-Token")] string token,
         [FromHeader(Name = "X-Goog-Resource-State")] string resourceState)
@@ -31,10 +30,9 @@ public class GoogleWebHookController : ControllerBase
         return Ok();
     }
 
-    [HttpGet("stop")]
+    [HttpGet("stop-updates")]
     [ProducesResponseType((int) HttpStatusCode.OK)]
     [ProducesResponseType((int) HttpStatusCode.NotFound)]
-
     public async Task<IActionResult> StopReceivingUpdates(string watchToken)
     {
         var success = await _calendarUpdateService.StopWatch(watchToken);
