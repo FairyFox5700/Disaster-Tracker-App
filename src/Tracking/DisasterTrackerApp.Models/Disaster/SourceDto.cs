@@ -1,12 +1,11 @@
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace DisasterTrackerApp.Models.Disaster;
 
 public class SourceDto
 {
-    [JsonPropertyName("id")]
+    [JsonProperty("id")]
     public string Id { get; set; }
-
-    [JsonPropertyName("url")]
+    [JsonProperty("url")]
     public string Url { get; set; }
 }

@@ -34,20 +34,9 @@ public class DisasterTrackerContext:DbContext
         modelBuilder.Entity<CalendarEvent>()
             .HasIndex(e => e.GoogleEventId)
             .IsUnique(true);
-        
-        
+
         modelBuilder.Entity<DisasterEvent>()
             .HasKey(e => e.Id);
-        modelBuilder.Entity<DisasterEvent>()
-            .HasIndex(e => e.ExternalApiId)
-            .IsUnique(true);
-        modelBuilder.Entity<DisasterEvent>().OwnsMany(c => c.Coordiantes, 
-            d =>
-          {
-              d.WithOwner().HasForeignKey("DisasterId");
-              d.Property(e=>e.Id);
-              d.HasKey(e=>e.Id);
-          });
     }
     
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())

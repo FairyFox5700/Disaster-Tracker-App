@@ -7,4 +7,6 @@ public interface IDisasterEventRepository
 {
     Task<DisasterEvent?> GetDisasterEventByExternalId(string externalId);
     Task<List<DisasterEvent>> GetDisasterEventsFiltered(Expression<Func<DisasterEvent,bool>> predicate);
+    Task<DisasterEvent?> GetLastDisasterEventByClosedTime();
+    Task AddEvents(IEnumerable<DisasterEvent> disasterEvents);
 }
