@@ -1,7 +1,7 @@
 using Polly;
 using Polly.Extensions.Http;
 
-namespace DisasterTrackerApp.WebApi.Internal;
+namespace DisasterTrackerApp.BL.Internal;
 
 public static class PolicyStrategies
 {

@@ -15,5 +15,5 @@ public class DisasterEvent : IKeyEntity<Guid>
     public string? Title { get; set; }
     public DateTime? Closed { get; set; }
     [JsonConverter(typeof(GeometryConverter))]
-    public Geometry Geometry { get; set; }
+    public Geometry? Geometry { get; set; }
 }
