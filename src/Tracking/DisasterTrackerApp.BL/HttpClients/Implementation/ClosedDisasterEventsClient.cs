@@ -1,6 +1,5 @@
 ﻿using DisasterTrackerApp.Models.ApiModels;
 using DisasterTrackerApp.Models.Disaster;
-using DisasterTrackerApp.Utils.Extensions;
 using DisasterTrackerApp.BL.HttpClients.Contract;
 using Newtonsoft.Json;
 
@@ -16,7 +15,9 @@ namespace DisasterTrackerApp.BL.HttpClients.Implementation
         public async Task<ApiResponse<List<FeatureDto>>> GetDisasterEventsAsync(CancellationToken cancellationToken)
         {
             using var request = new HttpRequestMessage(HttpMethod.Get, _httpClient.BaseAddress);
-            using var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            using var response = await _httpClient
+                .SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
+                .ConfigureAwait(false);
             var jsonResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
             if (response.IsSuccessStatusCode)

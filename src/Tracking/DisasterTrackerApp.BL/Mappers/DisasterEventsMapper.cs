@@ -13,7 +13,7 @@ namespace DisasterTrackerApp.BL.Mappers
                     ExternalApiId = disasterEvent.Properties.Id,
                     Title = disasterEvent.Properties.Title,
                     Closed = disasterEvent.Properties.Closed,
-                    Geometry = disasterEvent.Geometry
+                    Geometry = disasterEvent.Geometry,
                 };
         }
     }

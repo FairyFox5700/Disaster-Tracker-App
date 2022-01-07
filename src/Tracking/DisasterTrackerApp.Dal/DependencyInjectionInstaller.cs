@@ -1,7 +1,7 @@
 using DisasterTrackerApp.Dal.Repositories.Contract;
 using DisasterTrackerApp.Dal.Repositories.Implementation;
 using Hangfire;
-using Hangfire.SqlServer;
+using Hangfire.PostgreSql;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,11 +14,7 @@ public static class DependencyInjectionInstaller
     public static IServiceCollection AddDalDependencies(this IServiceCollection services,
         IConfiguration configuration)
     {
-        /* services.AddStackExchangeRedisCache(options =>
-         {
-             options.Configuration =builder.Configuration.GetValue<string>("Redis.connection");
-         });*/
-       services.AddRedisDependencies(configuration)
+        services.AddRedisDependencies(configuration)
             .AddDbConnections(configuration)
             .RegisterHangfire(configuration)
             .AddRepositories();
@@ -44,23 +40,8 @@ public static class DependencyInjectionInstaller
 
     private static IServiceCollection RegisterHangfire(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddHangfire(x => x
-            .UseSqlServerStorage(configuration.GetConnectionString("DefaultConnection")));
-        services.AddHangfireServer();
-        services.AddHangfire(cnfg => cnfg
-            .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
-            .UseSimpleAssemblyNameTypeSerializer()
-            .UseRecommendedSerializerSettings()
-            .UseSqlServerStorage(configuration.GetConnectionString("DefaultConnection"),
-                new SqlServerStorageOptions
-                {
-                    CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
-                    SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
-                    QueuePollInterval = TimeSpan.Zero,
-                    UseRecommendedIsolationLevel = true,
-                    DisableGlobalLocks = true,
-                }));
-        
+        services.AddHangfire(x => x.UsePostgreSqlStorage(configuration
+            .GetConnectionString("DisasterTrackerConnection")));
         return services;
     }
 

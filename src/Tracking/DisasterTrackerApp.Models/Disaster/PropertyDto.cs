@@ -9,7 +9,7 @@ namespace DisasterTrackerApp.Models.Disaster
         [JsonProperty("title")]
         public string Title { get; set; }
         [JsonProperty("closed")]
-        public DateTime Closed { get; set; }
+        public DateTime? Closed { get; set; }
         [JsonProperty("categories")]
         public List<CategoryDto?>? Categories { get; set; }
         [JsonProperty("sources")]

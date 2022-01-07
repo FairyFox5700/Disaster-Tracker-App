@@ -1,7 +1,7 @@
-
 using DisasterTrackerApp.Dal.Extensions;
 using DisasterTrackerApp.Dal.Repositories.Contract;
 using DisasterTrackerApp.Entities;
+using Newtonsoft.Json;
 using StackExchange.Redis;
 
 namespace DisasterTrackerApp.Dal.Repositories.Implementation;
@@ -35,24 +35,20 @@ public class RedisDisasterEventsRepository:IRedisDisasterEventsRepository
     public DisasterEvent? GetDisasterEventById(string id)
     {
         var db = _connectionMultiplexer.GetDatabase();
-        var plat = db.HashGet("hashDisasterEvent", id);
+        var hashGet = db.HashGet("hashDisasterEvent", id);
 
-        if (!string.IsNullOrEmpty(plat))
-        {
-            return JsonExtensions.GeoJsonDeserialize<DisasterEvent>(plat);
-        }
-        return null;
+        return !string.IsNullOrEmpty(hashGet) ? JsonConvert.DeserializeObject<DisasterEvent>(hashGet) : null;
     }
 
-    public IEnumerable<DisasterEvent?>? GetAllDisasterEvents()
+    public IEnumerable<DisasterEvent?> GetAllDisasterEvents()
     {
         var db = _connectionMultiplexer.GetDatabase();
 
         var completeSet = db.HashGetAll("hashDisasterEvent");
 
-        if (completeSet.Length <= 0) return null;
+        if (completeSet.Length <= 0) return new List<DisasterEvent?>();
         var obj = Array.ConvertAll(completeSet, val => 
-                JsonExtensions.GeoJsonDeserialize<DisasterEvent>(val.Value))
+                JsonConvert.DeserializeObject<DisasterEvent>(val.Value))
             .ToList();
         return obj;
         
