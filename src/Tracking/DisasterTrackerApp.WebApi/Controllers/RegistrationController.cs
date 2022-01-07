@@ -1,6 +1,7 @@
 using System.Net;
 using DisasterTrackerApp.BL.Contract;
 using DisasterTrackerApp.Models.ApiModels;
+using DisasterTrackerApp.Models.ApiModels.Base;
 using DisasterTrackerApp.Models.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
