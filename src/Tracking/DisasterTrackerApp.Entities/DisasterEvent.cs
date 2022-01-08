@@ -13,5 +13,5 @@ public class DisasterEvent : IKeyEntity<Guid>
     public string? Title { get; set; }
     public DateTime? Closed { get; set; }
     [Column(TypeName = "geography")]
-    public Geometry? Geometry { get; set; }
+    public Geometry Geometry { get; set; }
 }

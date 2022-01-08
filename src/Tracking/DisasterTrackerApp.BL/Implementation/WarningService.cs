@@ -53,11 +53,8 @@ namespace DisasterTrackerApp.BL.Implementation
             CancellationToken cancellationToken = default)
         {
             return Observable.FromAsync(async () =>
-                from c in await _calendarRepository.GetCalendarEventsFilteredWithUserId(warningRequest.UserId,
-                    BuildExpression(warningRequest),
-                    cancellationToken)
-                from d in _disasterEventRepository.GetAllDisasterEvents()
-                where d.Geometry.Distance(c.Coordiantes) <= MaxRadiusInMeters
+                from c in await _calendarEventsRepository.GetFilteredAsync(BuildExpression(warningRequest))
+                from d in _disasterEventRepository.GetDisasterEventsFiltered(x => x.Geometry.Distance(c.Coordinates) <= MaxRadiusInMeters).Result
                 select new WarningDto(c.Id,
                     d.Id,
                     $"Warning. Disaster can occur near your event in place {c.Location}",
