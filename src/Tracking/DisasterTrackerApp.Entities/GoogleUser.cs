@@ -11,11 +11,11 @@ public class GoogleUser
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public  Guid UserId { get; set; }
-    
+
     /// <summary>
     /// Unique user identifier in Google products
     /// </summary>
-    public string UserGoogleId { get; set; }
+    public string UserGoogleId { get; set; } = null!;
     
     /// <summary>
     /// Encrypted Access Token

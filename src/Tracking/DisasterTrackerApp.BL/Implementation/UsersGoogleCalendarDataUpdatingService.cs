@@ -49,6 +49,7 @@ public class UsersGoogleCalendarDataUpdatingService : IUsersGoogleCalendarDataUp
 
         if (success)
         {
+            _logger.LogInformation("User's primary calendar and it's events were successfully updated");
             await _userRepository.SetLastLoginDataUpdateDateTime(user);
         }
     }
@@ -72,22 +73,28 @@ public class UsersGoogleCalendarDataUpdatingService : IUsersGoogleCalendarDataUp
         if (existingChannel == null)
         {
             var channel = await _calendarService.WatchEvents(userId, googleCalendarId);
+            _logger.LogInformation("Watch channel for user {Id} primary calendar was created", userId);
             return channel.Token;
         }
 
         await _calendarService.StopWatchEvents(existingChannel.ChannelToken);
         var newWatchChannel = await _calendarService.WatchEvents(userId, googleCalendarId);
+        _logger.LogInformation("Watch channel for user {Id} primary calendar was updated", userId);
 
         return newWatchChannel.Token;
     }
 
     public async Task<bool> StopWatch(string channelToken)
     {
-        return await _calendarService.StopWatchEvents(channelToken);
+        var success = await _calendarService.StopWatchEvents(channelToken);
+        _logger.LogInformation("Trying to stop watch channel with token {Token}. Success: {Result}", channelToken, success);
+        
+        return success;
     }
 
     public async Task UpdateCalendarEventsOnWebHook(string channelToken, DateTime triggerTime)
     {
+        _logger.LogInformation("Updating user's events after web hook trigger. Channel token: {Token}", channelToken);
         var watchData = WatchChannelDataMapper.MapChannelDataEntityToDto(_watchChannelsRepository.GetWatchChannel(channelToken));
         if (watchData == null)
         {
@@ -107,7 +114,9 @@ public class UsersGoogleCalendarDataUpdatingService : IUsersGoogleCalendarDataUp
         }
         
         var events = await _calendarService.GetUserEventsAsync(watchData.UserId, calendar.GoogleCalendarId, watchData.LastTimeTriggered);
-        await UpdateCalendarEvents(calendar.Id, events);
+        var success = await UpdateCalendarEvents(calendar.Id, events);
+        
+        _logger.LogInformation("Trying to process watch channel {Token} web hook trigger. Success: {Success}", channelToken, success);
         
         _watchChannelsRepository.Save(channelToken, WatchChannelDataMapper.MapChannelDataDtoToEntity(watchData.UpdateTriggerTime(triggerTime)));
     }
@@ -164,6 +173,9 @@ public class UsersGoogleCalendarDataUpdatingService : IUsersGoogleCalendarDataUp
         }
         catch (Exception exception)
         {
+            _logger.LogError("Error occured while trying to update user's data in database." +
+                             "Exception message: {Message}", exception.Message);
+            
             return false;
         }
 
@@ -171,7 +183,8 @@ public class UsersGoogleCalendarDataUpdatingService : IUsersGoogleCalendarDataUp
 
     private async Task RemoveOutdatedCalendarEvents(IEnumerable<CalendarEvent> calendarEvents)
     {
-        var outdatedEvents = calendarEvents.Where(IsOutdated);
+        var outdatedEvents = calendarEvents.Where(IsOutdated).ToList();
+        _logger.LogInformation("{Count} outdated events were detected", outdatedEvents.Count);
         await _calendarEventsRepository.RemoveUserEventsAsync(outdatedEvents);
     }
 
