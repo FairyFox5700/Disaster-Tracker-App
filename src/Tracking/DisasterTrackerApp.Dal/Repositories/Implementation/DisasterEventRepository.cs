@@ -32,4 +32,8 @@ public class DisasterEventRepository : IDisasterEventRepository
         await _context.AddRangeAsync(disasterEvents).ConfigureAwait(false);
         await _context.SaveChangesAsync().ConfigureAwait(false);
     }
+    public IEnumerable<DisasterEvent?>? GetAllDisasterEvents() 
+    {
+        return _context.DisasterEvent.ToList();
+    }
 }

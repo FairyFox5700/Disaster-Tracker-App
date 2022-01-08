@@ -9,4 +9,5 @@ public interface IDisasterEventRepository
     Task<List<DisasterEvent>> GetDisasterEventsFiltered(Expression<Func<DisasterEvent,bool>> predicate);
     Task<DisasterEvent?> GetLastDisasterEventByClosedTime();
     Task AddEvents(IEnumerable<DisasterEvent> disasterEvents);
+    IEnumerable<DisasterEvent?>? GetAllDisasterEvents();
 }
