@@ -45,7 +45,7 @@ public static class DependencyInjectionInstaller
             .UseSimpleAssemblyNameTypeSerializer()
             .UseRecommendedSerializerSettings()
             .UsePostgreSqlStorage(configuration
-                .GetConnectionString("HangfireConnection"), new PostgreSqlStorageOptions()
+                .GetConnectionString("DisasterTrackerConnection"), new PostgreSqlStorageOptions()
             {
                 PrepareSchemaIfNecessary = true,
             }));
