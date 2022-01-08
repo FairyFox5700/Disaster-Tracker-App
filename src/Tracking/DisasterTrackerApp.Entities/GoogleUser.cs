@@ -11,6 +11,12 @@ public class GoogleUser
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public  Guid UserId { get; set; }
+    
+    /// <summary>
+    /// Unique user identifier in Google products
+    /// </summary>
+    public string UserGoogleId { get; set; }
+    
     /// <summary>
     /// Encrypted Access Token
     /// </summary>
@@ -24,11 +30,13 @@ public class GoogleUser
     /// </summary>
     public  DateTimeOffset ExpiresIn { get; set; }
     /// <summary>
-    /// Calculated bool field to chec access token expiration
+    /// Calculated bool field to check access token expiration
     /// </summary>
     [NotMapped]
     public bool IsExpired => DateTimeOffset.UtcNow >= ExpiresIn;
 
+    public DateTime? LastVisit { get; set; } // todo rename to LastLoginDataUpdate 
+    
     #region  FK
     public  List<GoogleCalendar>? Calendars { get; set; }
     #endregion

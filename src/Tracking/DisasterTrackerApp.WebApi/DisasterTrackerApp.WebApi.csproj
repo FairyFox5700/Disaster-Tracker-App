@@ -38,11 +38,14 @@
 
     <ItemGroup>
       <Content Remove="client_credentional.json" />
-      <Resource Include="client_credentional.json" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\DisasterTrackerApp.BL\DisasterTrackerApp.BL.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="client_credentials.json" />
     </ItemGroup>
 
 </Project>

@@ -1,6 +1,7 @@
 ﻿using DisasterTrackerApp.Models.ApiModels;
 using DisasterTrackerApp.Models.Disaster;
 using DisasterTrackerApp.BL.HttpClients.Contract;
+using DisasterTrackerApp.Models.ApiModels.Base;
 using Newtonsoft.Json;
 
 namespace DisasterTrackerApp.BL.HttpClients.Implementation

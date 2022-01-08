@@ -10,10 +10,12 @@ namespace DisasterTrackerApp.WebApi.Controllers;
 public class WarningController : ControllerBase
 {
     private readonly IWarningService _warningService;
+    private readonly IGoogleCalendarService _calendarService;
 
-    public WarningController(IWarningService warningService)
+    public WarningController(IWarningService warningService, IGoogleCalendarService calendarService)
     {
         _warningService = warningService;
+        _calendarService = calendarService;
     }
     
     [HttpGet("/receive-warnings")]
@@ -31,7 +33,9 @@ public class WarningController : ControllerBase
                 return e;
             })
             .ToTask(cancellationToken);
-       
+
+        await _calendarService.StopWatchEvents(warningRequest.UserId); // todo you can temporary remove it for testing purposes
+        // after this call our application stops receiving real time updates from user's Google Calendar
     }
     [HttpGet("/receive-statisticwarnings")]
     public async Task GetStatisticsWarnings(WarningRequest warningRequest, CancellationToken cancellationToken = default)

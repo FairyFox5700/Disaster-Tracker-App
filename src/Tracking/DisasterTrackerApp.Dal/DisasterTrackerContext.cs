@@ -21,7 +21,10 @@ public class DisasterTrackerContext:DbContext
         base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<GoogleUser>()
             .HasKey(e => e.UserId);
-
+        modelBuilder.Entity<GoogleUser>()
+            .HasIndex(e => e.UserGoogleId)
+            .IsUnique();
+        
         modelBuilder.Entity<GoogleCalendar>()
             .HasKey(e => e.Id);
         modelBuilder.Entity<GoogleCalendar>()
@@ -34,7 +37,11 @@ public class DisasterTrackerContext:DbContext
         modelBuilder.Entity<CalendarEvent>()
             .HasIndex(e => e.GoogleEventId)
             .IsUnique(true);
-
+        modelBuilder.Entity<CalendarEvent>()
+            .HasOne(e => e.Calendar)
+            .WithMany(c => c.CalendarEvents)
+            .HasForeignKey(e => e.CalendarId);
+        
         modelBuilder.Entity<DisasterEvent>()
             .HasKey(e => e.Id);
     }

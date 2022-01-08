@@ -2,6 +2,7 @@
 using DisasterTrackerApp.BL.Contract;
 using DisasterTrackerApp.BL.Mappers;
 using DisasterTrackerApp.BL.HttpClients.Contract;
+using DisasterTrackerApp.BL.Mappers.Implementation;
 
 namespace DisasterTrackerApp.BL.Implementation
 {

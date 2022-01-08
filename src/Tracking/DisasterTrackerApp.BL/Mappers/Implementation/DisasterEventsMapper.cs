@@ -1,7 +1,7 @@
 ﻿using DisasterTrackerApp.Entities;
 using DisasterTrackerApp.Models.Disaster;
 
-namespace DisasterTrackerApp.BL.Mappers
+namespace DisasterTrackerApp.BL.Mappers.Implementation
 {
     public static class DisasterEventsMapper
     {

@@ -3,6 +3,9 @@ using DisasterTrackerApp.BL.HttpClients.Contract;
 using DisasterTrackerApp.BL.HttpClients.Implementation;
 using DisasterTrackerApp.BL.Implementation;
 using DisasterTrackerApp.BL.Internal;
+using DisasterTrackerApp.BL.Mappers.Contract;
+using DisasterTrackerApp.BL.Mappers.Implementation;
+using DisasterTrackerApp.Models.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -19,6 +22,7 @@ public static class BalDependencyInjection
         IConfiguration configuration)
     {
         services.AddServices()
+            .AddConfiguration(configuration)
             .AddHttpClients(configuration);
         return services;
     }
@@ -27,6 +31,13 @@ public static class BalDependencyInjection
     {
         services.AddTransient<IWarningService, WarningService>();
         services.AddTransient<INewClosedEventsService, NewClosedEventsService>();
+        services.AddScoped<IRegistrationService, RegistrationService>();
+        services.AddScoped<IGoogleApiAccessService, GoogleApiAccessService>();
+        services.AddScoped<IGoogleCalendarService, GoogleCalendarService>();
+        services.AddScoped<ICalendarEventMapper, CalendarEventMapper>();
+        services.AddScoped<IUsersGoogleCalendarDataUpdatingService, UsersGoogleCalendarDataUpdatingService>();
+        services.AddScoped<IGoogleGeocoderService, GoogleGeocoderService>();
+
         return services;
     }
     private static IServiceCollection AddHttpClients(this IServiceCollection services,IConfiguration configuration)
@@ -50,7 +61,21 @@ public static class BalDependencyInjection
             .AddPolicyHandler(PolicyStrategies.GetRetryPolicy())
             .AddPolicyHandler(PolicyStrategies.GetCircuitBreakerPolicy());
         
+        services.AddHttpClient<IGoogleOAuthHttpClient, GoogleOAuthHttpClient>()
+            .AddPolicyHandler(PolicyStrategies.GetRetryPolicy())
+            .AddPolicyHandler(PolicyStrategies.GetCircuitBreakerPolicy());
+        
         return services;
     }
-    
+
+    private static IServiceCollection AddConfiguration(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.Configure<GoogleOAuthClientCredentials>(
+            configuration.GetSection(GoogleOAuthClientCredentials.Section));
+        
+        services.Configure<GoogleWebHookOptions>(
+            configuration.GetSection(GoogleWebHookOptions.Section));
+
+        return services;
+    }
 }
