@@ -10,12 +10,12 @@ using Microsoft.Extensions.Options;
 namespace DisasterTrackerApp.WebApi.Controllers;
 
 [ApiController]
-public class UsersController : ControllerBase
+public class UsersManagerController : ControllerBase
 {
     private readonly IRegistrationService _registrationService;
     private readonly GoogleOAuthClientCredentials _credentialOptions;
 
-    public UsersController(
+    public UsersManagerController(
         IRegistrationService registrationService, 
         IOptions<GoogleOAuthClientCredentials> credentialOptions)
     {
