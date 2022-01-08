@@ -2,6 +2,7 @@ using System.Linq.Expressions;
 using DisasterTrackerApp.Dal.Repositories.Contract;
 using DisasterTrackerApp.Entities;
 using Microsoft.EntityFrameworkCore;
+using NetTopologySuite.Geometries;
 
 namespace DisasterTrackerApp.Dal.Repositories.Implementation;
 
@@ -31,5 +32,12 @@ public class DisasterEventRepository : IDisasterEventRepository
     {
         await _context.AddRangeAsync(disasterEvents).ConfigureAwait(false);
         await _context.SaveChangesAsync().ConfigureAwait(false);
+    }
+    public async Task<List<Tuple<CalendarEvent,DisasterEvent>>> GetDisasterEventsByCalendarInRadius(Expression<Func<CalendarEvent, bool>>calendarPredicate, int distance) 
+    {
+        return await (from c in _context.CalendarEvents.Where(calendarPredicate)
+                from d in _context.DisasterEvent.Where(x => x.Geometry.Distance(c.Coordinates) <= distance)
+                select new Tuple<CalendarEvent, DisasterEvent>(c, d)).ToListAsync();
+        
     }
 }

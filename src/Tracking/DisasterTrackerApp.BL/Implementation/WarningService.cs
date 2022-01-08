@@ -18,15 +18,20 @@ namespace DisasterTrackerApp.BL.Implementation
         private readonly IDisasterEventsClient _disasterEventsClient;
         private readonly IRedisDisasterEventsRepository _redisDisasterEventsRepository;
         private readonly ICalendarEventsRepository _calendarEventsRepository;
-        private const int MaxRadius = 40;
+        private readonly ICalendarRepository _calendarRepository;
+        private readonly IDisasterEventRepository _disasterEventRepository;
+        private const int MaxRadiusInMeters = 40000;
     
         public WarningService(IDisasterEventsClient disasterEventsClient,
             IRedisDisasterEventsRepository redisDisasterEventsRepository,
-            ICalendarEventsRepository calendarEventsRepository)
+            ICalendarRepository calendarRepository,
+            ICalendarEventsRepository calendarEventsRepository,
+            IDisasterEventRepository disasterEventRepository)
         {
             _disasterEventsClient = disasterEventsClient;
             _redisDisasterEventsRepository = redisDisasterEventsRepository;
-            _calendarEventsRepository = calendarEventsRepository;
+            _calendarRepository = calendarRepository;
+            _disasterEventRepository = disasterEventRepository;
             FetchNewDisasterEvents(CancellationToken.None);
         }
         public IObservable<WarningDto> GetWarningEvents(WarningRequest warningRequest,
@@ -35,7 +40,7 @@ namespace DisasterTrackerApp.BL.Implementation
             return Observable.FromAsync(async () =>
                 from c in await _calendarEventsRepository.GetFilteredAsync(BuildExpression(warningRequest))
                 from d in _redisDisasterEventsRepository.GetAllDisasterEvents()
-                where d.Geometry.IsWithinDistance((Geometry)c.Coordinates,MaxRadius)
+                where d.Geometry.IsWithinDistance((Geometry)c.Coordinates, MaxRadiusInMeters)
                     select new WarningDto(c.Id,
                         d.Id, 
                         $"Warning. Disaster can occur near your event in place {c.Location}",
@@ -44,7 +49,18 @@ namespace DisasterTrackerApp.BL.Implementation
                     ))
                 .SelectMany(e=>e);
         }
-
+        public IObservable<WarningDto> GetStatisticsWarningEvents(WarningRequest warningRequest,
+            CancellationToken cancellationToken = default)
+        {
+            return Observable.FromAsync(async () =>
+                await _disasterEventRepository.GetDisasterEventsByCalendarInRadius(BuildExpression(warningRequest), MaxRadiusInMeters))
+                .SelectMany(e => e)
+                .Select(e => new WarningDto(e.Item1.Id,
+                                            e.Item2.Id,
+                                            $"Warning. Disaster can occur near your event in place {e.Item1.Location}",
+                                            e.Item1.EndTs,
+                                            e.Item1.StartedTs));
+        }
         private void FetchNewDisasterEvents(CancellationToken cancellationToken)
         {
             _disasterEventsClient.GetDisasterEventsAsync(cancellationToken)

@@ -37,4 +37,21 @@ public class WarningController : ControllerBase
         await _calendarService.StopWatchEvents(warningRequest.UserId); // todo you can temporary remove it for testing purposes
         // after this call our application stops receiving real time updates from user's Google Calendar
     }
+    [HttpGet("/receive-statisticwarnings")]
+    public async Task GetStatisticsWarnings(WarningRequest warningRequest, CancellationToken cancellationToken = default)
+    {
+        var response = Response;
+        response.Headers.Add("Content-Type", "text/event-stream");
+        await _warningService.GetStatisticsWarningEvents(warningRequest, cancellationToken)
+            .DefaultIfEmpty(new WarningDto(default, default, default, default, default))
+            .SelectMany(async e =>
+            {
+                await response.WriteAsync($"{JsonConvert.SerializeObject(e)}\r\r",
+                    cancellationToken: cancellationToken);
+                await response.Body.FlushAsync(cancellationToken);
+                return e;
+            })
+            .ToTask(cancellationToken);
+
+    }
 }
