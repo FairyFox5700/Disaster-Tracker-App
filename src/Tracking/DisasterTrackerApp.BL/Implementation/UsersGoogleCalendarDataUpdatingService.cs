@@ -3,7 +3,6 @@ using DisasterTrackerApp.BL.Mappers.Contract;
 using DisasterTrackerApp.BL.Mappers.Implementation;
 using DisasterTrackerApp.Dal.Repositories.Contract;
 using DisasterTrackerApp.Entities;
-using DisasterTrackerApp.Models.Calendar;
 using Google.Apis.Calendar.v3.Data;
 using Microsoft.Extensions.Logging;
 
@@ -56,18 +55,30 @@ public class UsersGoogleCalendarDataUpdatingService : IUsersGoogleCalendarDataUp
 
     public async Task<string?> RegisterWatch(Guid userId)
     {
-        var calendar = await _calendarRepository.GetFilteredAsync(c => c.UserId == userId);
-        var primaryCalendar = calendar.FirstOrDefault(c => c.Primary.HasValue && c.Primary.Value);
+        var calendars = await _calendarRepository.GetFilteredAsync(c => c.UserId == userId);
+        var primaryCalendar = calendars.FirstOrDefault(c => c.Primary.HasValue && c.Primary.Value);
         if (primaryCalendar == null)
         {
             _logger.LogWarning("Cannot find primary calendar for user {Id}", userId.ToString());
-
             return null;
         }
-        
-        var channel = await _calendarService.WatchEvents(userId, primaryCalendar.GoogleCalendarId);
 
-        return channel.Token;
+        return await CreateOrUpdateWatchChannel(userId, primaryCalendar.GoogleCalendarId);
+    }
+
+    private async Task<string?> CreateOrUpdateWatchChannel(Guid userId, string googleCalendarId)
+    {
+        var existingChannel = _watchChannelsRepository.GetWatchChannel(userId);
+        if (existingChannel == null)
+        {
+            var channel = await _calendarService.WatchEvents(userId, googleCalendarId);
+            return channel.Token;
+        }
+
+        await _calendarService.StopWatchEvents(existingChannel.ChannelToken);
+        var newWatchChannel = await _calendarService.WatchEvents(userId, googleCalendarId);
+
+        return newWatchChannel.Token;
     }
 
     public async Task<bool> StopWatch(string channelToken)

@@ -16,6 +16,7 @@ public static class WatchChannelDataMapper
             {
                 UserId = channelData.UserId,
                 ChannelId = channelData.ChannelId,
+                ChannelToken = channelData.ChannelToken,
                 LastTimeTriggered = channelData.LastTimeTriggered,
                 ResourceId = channelData.ResourceId
             };
@@ -28,7 +29,7 @@ public static class WatchChannelDataMapper
             return null;
         }
         
-        return new WatchChannelData(channelData.UserId, channelData.ChannelId, channelData.ResourceId,
-            channelData.LastTimeTriggered);
+        return new WatchChannelData(channelData.ChannelToken, channelData.UserId, channelData.ChannelId, 
+            channelData.ResourceId, channelData.LastTimeTriggered);
     }
 }

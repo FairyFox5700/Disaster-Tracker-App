@@ -1,4 +1,5 @@
 using DisasterTrackerApp.BL.Contract;
+using DisasterTrackerApp.BL.Mappers.Implementation;
 using DisasterTrackerApp.Dal.Repositories.Contract;
 using DisasterTrackerApp.Entities;
 using DisasterTrackerApp.Models.Calendar;
@@ -17,17 +18,17 @@ public class GoogleCalendarService : IGoogleCalendarService
     private readonly IGoogleApiAccessService _apiAccessService;
     private readonly IGoogleUserRepository _usersRepository;
     private readonly GoogleWebHookOptions _webHookConfiguration;
-    private readonly IRedisWatchChannelsRepository _redis;
+    private readonly IRedisWatchChannelsRepository _watchChannelsRepository;
     
     public GoogleCalendarService(
         IGoogleApiAccessService apiAccessService,
         IGoogleUserRepository usersRepository,
         IOptions<GoogleWebHookOptions> webHookConfiguration, 
-        IRedisWatchChannelsRepository redis)
+        IRedisWatchChannelsRepository watchChannelsRepository)
     {
         _apiAccessService = apiAccessService;
         _usersRepository = usersRepository;
-        _redis = redis;
+        _watchChannelsRepository = watchChannelsRepository;
         _webHookConfiguration = webHookConfiguration.Value;
     }
 
@@ -100,15 +101,20 @@ public class GoogleCalendarService : IGoogleCalendarService
 
         var channel =  await service.Events.Watch(BuildWatchChannel(token, googleCalendarId), googleCalendarId).ExecuteAsync();
 
-        var watchData = new WatchChannelData(userId, channel.Id, channel.ResourceId);
-        _redis.Set(token, watchData);
-
+        var watchData = new WatchChannelData(token, userId, channel.Id, channel.ResourceId);
+        _watchChannelsRepository.Save(token, WatchChannelDataMapper.MapChannelDataDtoToEntity(watchData));
+        
         return channel;
     }
 
     public async Task<bool> StopWatchEvents(string channelToken)
     {
-        var watchData = _redis.Get<WatchChannelData>(channelToken);
+        var watchData = WatchChannelDataMapper.MapChannelDataEntityToDto(_watchChannelsRepository.GetWatchChannel(channelToken));
+        if (watchData == null)
+        {
+            return false;
+        }
+        
         var service = await InitializeCalendarService(watchData.UserId);
 
         var channel = new Channel
@@ -119,6 +125,8 @@ public class GoogleCalendarService : IGoogleCalendarService
         try
         {
             await service.Channels.Stop(channel).ExecuteAsync();
+            _watchChannelsRepository.RemoveWatchChannel(watchData.UserId);
+            
             return true;
         }
         catch (GoogleApiException)

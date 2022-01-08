@@ -14,6 +14,7 @@ public class CalendarEvent:IKeyEntity<Guid>, IAuditable
     public DateTime? StartedTs { get; set; }
     public DateTime? EndTs { get; set; }
     public string? Location { get; set; }
+    [Column(TypeName="geography (point)")]
     public Point? Coordinates { get; set; }
 
     #region FK

@@ -7,8 +7,8 @@ namespace DisasterTrackerApp.Dal.Repositories.Implementation;
 
 public class RedisWatchChannelsRepository : IRedisWatchChannelsRepository
 {
-    private const string ChannelDataHashSet = "hashTokenWatchChannel";
-    private const string UserChannelHashSet = "hashUserChannel";
+    private const string WatchChannelsHashSet = "WatchChannelsHashSet";
+    private const string UserChannelHashSet = "UserChannelHashSet";
 
     private readonly IConnectionMultiplexer _connectionMultiplexer;
 
@@ -20,7 +20,21 @@ public class RedisWatchChannelsRepository : IRedisWatchChannelsRepository
     public WatchChannelEntity? GetWatchChannel(string channelToken)
     {
         var db = _connectionMultiplexer.GetDatabase();
-        var hashGet = db.HashGet(ChannelDataHashSet, channelToken);
+        var hashGet = db.HashGet(WatchChannelsHashSet, channelToken);
+
+        return !string.IsNullOrEmpty(hashGet) ? JsonConvert.DeserializeObject<WatchChannelEntity>(hashGet) : null;
+    }
+    
+    public WatchChannelEntity? GetWatchChannel(Guid userId)
+    {
+        var db = _connectionMultiplexer.GetDatabase();
+        var channelToken = db.HashGet(UserChannelHashSet, userId.ToString()).ToString();
+        if (string.IsNullOrEmpty(channelToken))
+        {
+            return null;
+        }
+        
+        var hashGet = db.HashGet(WatchChannelsHashSet, channelToken);
 
         return !string.IsNullOrEmpty(hashGet) ? JsonConvert.DeserializeObject<WatchChannelEntity>(hashGet) : null;
     }
@@ -32,8 +46,22 @@ public class RedisWatchChannelsRepository : IRedisWatchChannelsRepository
 
         return !string.IsNullOrEmpty(hashGet) ? hashGet.ToString() : null;
     }
+    
+    public void RemoveWatchChannel(Guid userId)
+    {
+        var db = _connectionMultiplexer.GetDatabase();
+        
+        var channelToken = db.HashGet(UserChannelHashSet, userId.ToString()).ToString();
+        if (string.IsNullOrEmpty(channelToken))
+        {
+            return;
+        }
+        
+        db.HashDelete(UserChannelHashSet, userId.ToString());
+        db.HashDelete(WatchChannelsHashSet, channelToken);
+    }
 
-    public void Save(string channelToken, WatchChannelEntity watchChannelEntity)
+    public void Save(string channelToken, WatchChannelEntity? watchChannelEntity)
     {
         if (watchChannelEntity == null)
         {
@@ -43,7 +71,7 @@ public class RedisWatchChannelsRepository : IRedisWatchChannelsRepository
         var data = JsonConvert.SerializeObject(watchChannelEntity);
 
         var db = _connectionMultiplexer.GetDatabase();
-        SaveData(db, ChannelDataHashSet, channelToken, data);
+        SaveData(db, WatchChannelsHashSet, channelToken, data);
         SaveData(db, UserChannelHashSet, watchChannelEntity.UserId.ToString(), channelToken);
     }
 
