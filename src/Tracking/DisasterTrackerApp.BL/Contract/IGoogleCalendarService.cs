@@ -9,4 +9,5 @@ public interface IGoogleCalendarService
     Task<IEnumerable<Event>> GetUserEventsAsync(Guid userId, string calendarId, DateTime? updatedAfter = null);
     Task<Channel> WatchEvents(Guid userId, string googleCalendarId);
     Task<bool> StopWatchEvents(string channelToken);
+    Task<bool> StopWatchEvents(Guid userId);
 }

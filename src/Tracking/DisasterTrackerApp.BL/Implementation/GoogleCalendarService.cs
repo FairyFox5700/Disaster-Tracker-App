@@ -116,12 +116,12 @@ public class GoogleCalendarService : IGoogleCalendarService
         }
         
         var service = await InitializeCalendarService(watchData.UserId);
-
         var channel = new Channel
         {
             Id = watchData.ChannelId,
             ResourceId = watchData.ResourceId
         };
+        
         try
         {
             await service.Channels.Stop(channel).ExecuteAsync();
@@ -133,6 +133,17 @@ public class GoogleCalendarService : IGoogleCalendarService
         {
             return false;
         }
+    }
+
+    public async Task<bool> StopWatchEvents(Guid userId)
+    {
+        var channelToken = _watchChannelsRepository.GetChannelToken(userId);
+        if (string.IsNullOrEmpty(channelToken))
+        {
+            return false;
+        }
+
+        return await StopWatchEvents(channelToken);
     }
 
     private Channel BuildWatchChannel(string token, string googleCalendarId)
