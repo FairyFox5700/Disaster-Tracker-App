@@ -20,7 +20,9 @@ public class OAuthController : ControllerBase
     [HttpGet("register")]
     [ProducesResponseType(typeof(ApiResponse<RegistrationResponse>), (int) HttpStatusCode.OK)]
     [ProducesResponseType(typeof(ApiError), (int) HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> Register([FromQuery] string code, [FromQuery] string scope, CancellationToken cancellationToken)
+    public async Task<IActionResult> Register([FromQuery] string code, 
+        [FromQuery] string scope, 
+        CancellationToken cancellationToken)
     {
         var userId = await _registrationService.RegisterUser(code, cancellationToken);
 

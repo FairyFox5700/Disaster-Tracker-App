@@ -40,8 +40,16 @@ public static class DependencyInjectionInstaller
 
     private static IServiceCollection RegisterHangfire(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddHangfire(x => x.UsePostgreSqlStorage(configuration
-            .GetConnectionString("DisasterTrackerConnection")));
+        services.AddHangfire(conf => conf
+            .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+            .UseSimpleAssemblyNameTypeSerializer()
+            .UseRecommendedSerializerSettings()
+            .UsePostgreSqlStorage(configuration
+                .GetConnectionString("HangfireConnection"), new PostgreSqlStorageOptions()
+            {
+                PrepareSchemaIfNecessary = true,
+            }));
+        services.AddHangfireServer();
         return services;
     }
 

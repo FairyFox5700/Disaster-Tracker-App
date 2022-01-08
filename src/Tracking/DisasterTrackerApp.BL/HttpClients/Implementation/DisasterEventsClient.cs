@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace DisasterTrackerApp.BL.HttpClients.Implementation;
 
-public partial class DisasterEventsClient :IDisasterEventsClient
+public class DisasterEventsClient :IDisasterEventsClient
 {
     private readonly HttpClient _httpClient;
     private readonly IRedisDisasterEventsRepository _redisDisasterEventsRepository;
