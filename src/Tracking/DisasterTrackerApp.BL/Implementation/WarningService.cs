@@ -58,7 +58,7 @@ namespace DisasterTrackerApp.BL.Implementation
                     BuildExpression(warningRequest),
                     cancellationToken)
                 from d in _disasterEventRepository.GetAllDisasterEvents()
-                where d.Geometry.IsWithinDistance(c.Coordiantes, MaxRadius)
+                where d.Geometry.Distance(c.Coordiantes) <= MaxRadius
                 select new WarningDto(c.Id,
                     d.Id,
                     $"Warning. Disaster can occur near your event in place {c.Location}",
