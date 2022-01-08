@@ -1,6 +1,6 @@
 namespace DisasterTrackerApp.Models.Warnings;
 
 public record WarningRequest(
-    string UserId,
+    Guid UserId,
     DateTimeOffset? EndDateTimeOffset,
     DateTimeOffset? StartDateTimeOffset);

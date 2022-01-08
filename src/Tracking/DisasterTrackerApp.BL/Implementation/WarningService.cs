@@ -1,16 +1,15 @@
 using System.Linq.Expressions;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
-using System.Reactive.Threading.Tasks;
 using DisasterTrackerApp.BL.Contract;
 using DisasterTrackerApp.BL.HttpClients.Contract;
 using DisasterTrackerApp.BL.Internal;
 using DisasterTrackerApp.BL.Mappers;
+using DisasterTrackerApp.BL.Mappers.Implementation;
 using DisasterTrackerApp.Dal.Repositories.Contract;
 using DisasterTrackerApp.Entities;
 using DisasterTrackerApp.Models.Warnings;
 using NetTopologySuite.Geometries;
-using Newtonsoft.Json;
 
 namespace DisasterTrackerApp.BL.Implementation
 {
@@ -18,27 +17,25 @@ namespace DisasterTrackerApp.BL.Implementation
     {
         private readonly IDisasterEventsClient _disasterEventsClient;
         private readonly IRedisDisasterEventsRepository _redisDisasterEventsRepository;
-        private readonly ICalendarRepository _calendarRepository;
+        private readonly ICalendarEventsRepository _calendarEventsRepository;
         private const int MaxRadius = 40;
     
         public WarningService(IDisasterEventsClient disasterEventsClient,
             IRedisDisasterEventsRepository redisDisasterEventsRepository,
-            ICalendarRepository calendarRepository)
+            ICalendarEventsRepository calendarEventsRepository)
         {
             _disasterEventsClient = disasterEventsClient;
             _redisDisasterEventsRepository = redisDisasterEventsRepository;
-            _calendarRepository = calendarRepository;
+            _calendarEventsRepository = calendarEventsRepository;
             FetchNewDisasterEvents(CancellationToken.None);
         }
         public IObservable<WarningDto> GetWarningEvents(WarningRequest warningRequest,
             CancellationToken cancellationToken = default)
         {
             return Observable.FromAsync(async () =>
-                from c in await _calendarRepository.GetCalendarEventsFilteredWithUserId(warningRequest.UserId,
-                    BuildExpression(warningRequest),
-                    cancellationToken)
+                from c in await _calendarEventsRepository.GetFilteredAsync(BuildExpression(warningRequest))
                 from d in _redisDisasterEventsRepository.GetAllDisasterEvents()
-                where d.Geometry.IsWithinDistance((Geometry)c.Coordiantes,MaxRadius)
+                where d.Geometry.IsWithinDistance((Geometry)c.Coordinates,MaxRadius)
                     select new WarningDto(c.Id,
                         d.Id, 
                         $"Warning. Disaster can occur near your event in place {c.Location}",
