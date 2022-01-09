@@ -1,3 +1,4 @@
+using System.Reactive.Linq;
 using DisasterTrackerApp.BL.Contract;
 using DisasterTrackerApp.BL.Mappers.Contract;
 using DisasterTrackerApp.BL.Mappers.Implementation;
@@ -149,14 +150,13 @@ public class UsersGoogleCalendarDataUpdatingService : IUsersGoogleCalendarDataUp
     {
         try
         {
-            var changedCalendarEvents = calendarEvents.ToList();
-            var existingCalendarEvents = (await _calendarEventsRepository.GetFilteredAsync(
-                    e => e.CalendarId == calendarId))
-                .ToList();
-
+            var changedCalendarEvents =calendarEvents.ToList();
+            var existingCalendarEvents = await _calendarEventsRepository
+                .GetFilteredAsync(e => e.CalendarId == calendarId);
+            
             var eventsToDelete = changedCalendarEvents
                 .Select(e => e.Id)
-                .Intersect(existingCalendarEvents.Select(e => e.GoogleEventId))
+                .Intersect(existingCalendarEvents.Select(e=>e.GoogleEventId))
                 .Select(id => existingCalendarEvents.First(e => e.GoogleEventId == id));
 
             await _calendarEventsRepository.RemoveUserEventsAsync(eventsToDelete);

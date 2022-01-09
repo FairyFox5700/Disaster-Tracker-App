@@ -14,6 +14,7 @@ namespace DisasterTrackerApp.BL.Mappers.Implementation
                     Title = disasterEvent.Properties.Title,
                     Closed = disasterEvent.Properties.Closed,
                     Geometry = disasterEvent.Geometry,
+                    Id = Guid.NewGuid(),
                 };
         }
     }

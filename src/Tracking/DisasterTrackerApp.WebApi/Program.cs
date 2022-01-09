@@ -2,10 +2,17 @@ using DisasterTrackerApp.BL;
 using DisasterTrackerApp.Dal;
 using DisasterTrackerApp.BL.Contract;
 using Hangfire;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddNewtonsoftJson(options =>
+    {
+        //this setting will allow to serialize foreign languages
+        options.SerializerSettings.StringEscapeHandling = StringEscapeHandling.EscapeNonAscii;
+    });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

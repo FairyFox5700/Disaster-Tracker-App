@@ -34,7 +34,7 @@ public class WarningController : ControllerBase
             })
             .ToTask(cancellationToken);
         
-        await _calendarService.StopWatchEvents(warningRequest.UserId);
+        //await _calendarService.StopWatchEvents(warningRequest.UserId);
 
         // todo you can temporary remove it for testing purposes
         // after this call our application stops receiving real time updates from user's Google Calendar

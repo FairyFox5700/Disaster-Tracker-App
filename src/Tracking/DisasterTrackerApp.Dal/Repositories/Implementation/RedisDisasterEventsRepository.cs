@@ -1,3 +1,4 @@
+using System.Reactive.Linq;
 using DisasterTrackerApp.Dal.Extensions;
 using DisasterTrackerApp.Dal.Repositories.Contract;
 using DisasterTrackerApp.Entities;
@@ -32,25 +33,27 @@ public class RedisDisasterEventsRepository:IRedisDisasterEventsRepository
                 new RedisValue(serializedDisasterEvent))
             });
     }
-    public DisasterEvent? GetDisasterEventById(string id)
+    public IObservable<DisasterEvent?> GetDisasterEventById(string id)
     {
         var db = _connectionMultiplexer.GetDatabase();
         var hashGet = db.HashGet("hashDisasterEvent", id);
 
-        return !string.IsNullOrEmpty(hashGet) ? JsonExtensions.GeoJsonDeserialize<DisasterEvent>(hashGet) : null;
+        return !string.IsNullOrEmpty(hashGet) ?
+            Observable.Return(JsonExtensions.GeoJsonDeserialize<DisasterEvent>(hashGet))
+            : Observable.Empty((DisasterEvent)null);
     }
 
-    public IEnumerable<DisasterEvent?> GetAllDisasterEvents()
+    public IObservable<List<DisasterEvent?>> GetAllDisasterEvents()
     {
         var db = _connectionMultiplexer.GetDatabase();
 
         var completeSet = db.HashGetAll("hashDisasterEvent");
 
-        if (completeSet.Length <= 0) return new List<DisasterEvent?>();
-        var obj = Array.ConvertAll(completeSet, val => 
+        if (completeSet.Length <= 0) return Observable.Empty(new List<DisasterEvent?>());
+        var disasters = Array.ConvertAll(completeSet, val => 
                 JsonExtensions.GeoJsonDeserialize<DisasterEvent>(val.Value))
             .ToList();
-        return obj;
-        
+        return Observable.Return(disasters);
+
     }
 }
