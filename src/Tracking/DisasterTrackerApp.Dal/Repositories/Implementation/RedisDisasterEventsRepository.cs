@@ -37,7 +37,7 @@ public class RedisDisasterEventsRepository:IRedisDisasterEventsRepository
         var db = _connectionMultiplexer.GetDatabase();
         var hashGet = db.HashGet("hashDisasterEvent", id);
 
-        return !string.IsNullOrEmpty(hashGet) ? JsonConvert.DeserializeObject<DisasterEvent>(hashGet) : null;
+        return !string.IsNullOrEmpty(hashGet) ? JsonExtensions.GeoJsonDeserialize<DisasterEvent>(hashGet) : null;
     }
 
     public IEnumerable<DisasterEvent?> GetAllDisasterEvents()
@@ -48,7 +48,7 @@ public class RedisDisasterEventsRepository:IRedisDisasterEventsRepository
 
         if (completeSet.Length <= 0) return new List<DisasterEvent?>();
         var obj = Array.ConvertAll(completeSet, val => 
-                JsonConvert.DeserializeObject<DisasterEvent>(val.Value))
+                JsonExtensions.GeoJsonDeserialize<DisasterEvent>(val.Value))
             .ToList();
         return obj;
         
