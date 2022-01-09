@@ -43,7 +43,7 @@ namespace DisasterTrackerApp.BL.Implementation
                     .Any(e => e.GetDistanceTo(new GeoCoordinate(c.Coordinates?.Y??0, c.Coordinates?.X??0)) < MaxRadiusInMeters)
                 select new WarningDto(c.Id,
                     d.Id,
-                    $"Warning. Disaster will occur near your event in place {c.Location}",
+                    $"Warning. There is an active disaster near your event location \"{c.Location}\"",
                     c.EndTs,
                     c.StartedTs
                 );
@@ -57,7 +57,7 @@ namespace DisasterTrackerApp.BL.Implementation
                     .SelectMany(e=>e)
                     .Select(e => new WarningDto(e.Item1.Id,
                                             e.Item2.Id,
-                                            $"Warning. Disaster can occur near your event in place {e.Item1.Location}",
+                                            $"Warning. Disaster may occur near your event location \"{e.Item1.Location}\"",
                                             e.Item1.EndTs,
                                             e.Item1.StartedTs));
         }
