@@ -57,7 +57,7 @@ namespace DisasterTrackerApp.BL.Implementation
                     .SelectMany(e=>e)
                     .Select(e => new WarningDto(e.Item1.Id,
                                             e.Item2.Id,
-                                            $"Warning. Disaster may occur near your event location \"{e.Item1.Location}\"",
+                                            $"Warning. Disaster may occur near your event location {e.Item1.Location}",
                                             e.Item1.EndTs,
                                             e.Item1.StartedTs));
         }
@@ -85,6 +85,8 @@ namespace DisasterTrackerApp.BL.Implementation
                 .Subscribe();
         }
         
+
+
         #region private_members
         private Expression<Func<CalendarEvent, bool>> BuildExpression(WarningRequest warningRequest)
         {
