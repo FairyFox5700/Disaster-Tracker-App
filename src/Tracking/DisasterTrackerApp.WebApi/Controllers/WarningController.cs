@@ -22,7 +22,8 @@ public class WarningController : ControllerBase
     public async Task GetWarnings(WarningRequest warningRequest, CancellationToken cancellationToken=default)
     {
         var response = Response;
-        response.Headers.Add("Content-Type", "text/event-stream");
+        response.ContentType ="text/event-stream; charset=utf-8;";
+        
         await _warningService.GetWarningEvents(warningRequest, cancellationToken)
             .DefaultIfEmpty(new WarningDto(default, default, default, default, default))
             .SelectMany(async e =>
@@ -43,7 +44,8 @@ public class WarningController : ControllerBase
     public async Task GetStatisticsWarnings(WarningRequest warningRequest, CancellationToken cancellationToken = default)
     {
         var response = Response;
-        response.Headers.Add("Content-Type", "text/event-stream");
+        response.ContentType ="text/event-stream; charset=utf-8;";
+        
         await _warningService.GetStatisticsWarningEvents(warningRequest, cancellationToken)
             .DefaultIfEmpty(new WarningDto(default, default, default, default, default))
             .SelectMany(async e =>

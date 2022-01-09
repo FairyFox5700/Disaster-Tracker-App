@@ -40,7 +40,7 @@ namespace DisasterTrackerApp.BL.Implementation
                 where d.Geometry.IsWithinDistance((Geometry)c.Coordinates, MaxRadiusInMeters)
                     select new WarningDto(c.Id,
                         d.Id, 
-                        $"Warning. There is an active disaster near your event location \"{c.Location}\"",
+                        $"Warning. There is an active disaster near your event location {c.Location}",
                               c.EndTs,
                           c.StartedTs
                     ))
@@ -55,7 +55,7 @@ namespace DisasterTrackerApp.BL.Implementation
                 .SelectMany(e => e)
                 .Select(e => new WarningDto(e.Item1.Id,
                                             e.Item2.Id,
-                                            $"Warning. Disaster may occur near your event location \"{e.Item1.Location}\"",
+                                            $"Warning. Disaster may occur near your event location {e.Item1.Location}",
                                             e.Item1.EndTs,
                                             e.Item1.StartedTs));
         }
