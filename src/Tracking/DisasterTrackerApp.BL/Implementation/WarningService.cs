@@ -44,7 +44,7 @@ namespace DisasterTrackerApp.BL.Implementation
                               MaxRadiusInMeters)
                 select new WarningDto(c.Id,
                     d.Id,
-                    $"Warning. There is an active disaster \"{d.Title}\" near your event location \"{c.Location}\".",
+                    $"Warning. There is an active disaster '{d.Title}' near your event location '{c.Location}'.",
                     c.EndTs,
                     c.StartedTs
                 );
@@ -57,9 +57,10 @@ namespace DisasterTrackerApp.BL.Implementation
                 _disasterEventRepository.GetDisasterEventsByCalendarInRadius(BuildExpression(warningRequest),
                         MaxRadiusInMeters)
                     .SelectMany(e => e)
+                    .Distinct(d => d.Item2.Title)
                     .Select(e => new WarningDto(e.Item1.Id,
                         e.Item2.Id,
-                        $"Warning. Disaster \"{e.Item2.Title}\" may occur near your event location {e.Item1.Location}",
+                        $"Warning. Disaster '{e.Item2.Title}' may occur near your event location '{e.Item1.Location}'",
                         e.Item1.EndTs,
                         e.Item1.StartedTs));
         }

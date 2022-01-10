@@ -10,12 +10,10 @@ namespace DisasterTrackerApp.WebApi.Controllers;
 public class WarningController : ControllerBase
 {
     private readonly IWarningService _warningService;
-    private readonly IGoogleCalendarService _calendarService;
 
-    public WarningController(IWarningService warningService, IGoogleCalendarService calendarService)
+    public WarningController(IWarningService warningService)
     {
         _warningService = warningService;
-        _calendarService = calendarService;
     }
     
     [HttpGet("/receive-warnings")]
@@ -35,7 +33,7 @@ public class WarningController : ControllerBase
             })
             .ToTask(cancellationToken);
         
-        await _calendarService.StopWatchEvents(warningRequest.UserId);
+        //await _calendarService.StopWatchEvents(warningRequest.UserId);
     }
     [HttpGet("/receive-statisticwarnings")]
     public async Task GetStatisticsWarnings(WarningRequest warningRequest, CancellationToken cancellationToken = default)
