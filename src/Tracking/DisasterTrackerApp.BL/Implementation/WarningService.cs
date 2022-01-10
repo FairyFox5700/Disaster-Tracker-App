@@ -1,5 +1,4 @@
 using System.Linq.Expressions;
-using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using DisasterTrackerApp.BL.Contract;
@@ -19,7 +18,7 @@ namespace DisasterTrackerApp.BL.Implementation
         private readonly IRedisDisasterEventsRepository _redisDisasterEventsRepository;
         private readonly ICalendarEventsRepository _calendarEventsRepository;
         private readonly IDisasterEventRepository _disasterEventRepository;
-        private const int MaxRadiusInMeters = 4000000;
+        private const int MaxRadiusInMeters = 500000;
     
         public WarningService(IDisasterEventsClient disasterEventsClient,
             IRedisDisasterEventsRepository redisDisasterEventsRepository,
@@ -57,7 +56,8 @@ namespace DisasterTrackerApp.BL.Implementation
                     .SelectMany(e=>e)
                     .Select(e => new WarningDto(e.Item1.Id,
                                             e.Item2.Id,
-                                            $"Warning. Disaster may occur near your event location {e.Item1.Location}",
+                                            $"Warning. Disaster may occur near your event location {e.Item1.Location}. " +
+                                            $"Disaster: {e.Item2.Title}",
                                             e.Item1.EndTs,
                                             e.Item1.StartedTs));
         }
