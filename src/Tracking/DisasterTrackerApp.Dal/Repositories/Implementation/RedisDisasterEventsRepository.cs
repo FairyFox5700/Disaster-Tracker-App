@@ -40,7 +40,7 @@ public class RedisDisasterEventsRepository:IRedisDisasterEventsRepository
 
         return !string.IsNullOrEmpty(hashGet) ?
             Observable.Return(JsonExtensions.GeoJsonDeserialize<DisasterEvent>(hashGet))
-            : Observable.Empty((DisasterEvent)null);
+            : Observable.Empty(new DisasterEvent());
     }
 
     public IObservable<List<DisasterEvent?>> GetAllDisasterEvents()
