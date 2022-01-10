@@ -154,7 +154,7 @@ public class GoogleCalendarService : IGoogleCalendarService
             Id = Guid.NewGuid().ToString(),
             Type = "web_hook",
             Token = token,
-            Expiration = DateTimeOffset.UtcNow.AddMinutes(10).ToUnixTimeMilliseconds(), // todo adjust expiration time
+            Expiration = DateTimeOffset.UtcNow.AddHours(1).ToUnixTimeMilliseconds(),
             ResourceUri = @$"https://www.googleapis.com/calendar/v3/calendars/{googleCalendarId}/events/watch"
         };
     }
