@@ -34,20 +34,16 @@ public class DisasterEventRepository : IDisasterEventRepository
                 .Where(predicate)
             .ToListAsync(cancellationToken: token));
     }
-    public IObservable<DisasterEvent?> GetLastDisasterEventByClosedTime() 
+    public async Task<DisasterEvent?> GetLastDisasterEventByClosedTime() 
     {
-        return Observable.FromAsync(async token =>await _context.DisasterEvent
+        return await _context.DisasterEvent
             .OrderByDescending(x => x.Closed)
-            .FirstOrDefaultAsync(cancellationToken: token));
+            .FirstOrDefaultAsync();
     }
-    public IObservable<Unit> AddEvents(IEnumerable<DisasterEvent> disasterEvents)
+    public async Task AddEvents(IEnumerable<DisasterEvent> disasterEvents)
     {
-        return Observable.FromAsync(async ct =>
-        {
-            await _context.AddRangeAsync(disasterEvents, ct);
-            await _context.SaveChangesAsync(ct);
-            return Unit.Default;
-        });
+        await _context.AddRangeAsync(disasterEvents); 
+        await _context.SaveChangesAsync();
     }
     public IObservable<List<Tuple<CalendarEvent, DisasterEvent>>> GetDisasterEventsByCalendarInRadius(Expression<Func<CalendarEvent, bool>>calendarPredicate, int distance) 
     {

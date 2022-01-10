@@ -15,6 +15,7 @@ namespace DisasterTrackerApp.BL.Implementation
     {
         private readonly IClosedDisasterEventsClient _closedDisasterEventsClient;
         private readonly IDisasterEventRepository _disasterEventRepository;
+
         public NewClosedEventsService(IClosedDisasterEventsClient closedDisasterEventsClient,
             IDisasterEventRepository disasterEventRepository)
         {
@@ -22,39 +23,29 @@ namespace DisasterTrackerApp.BL.Implementation
             _disasterEventRepository = disasterEventRepository;
         }
 
-        public Task AddNewClosedEvents(CancellationToken cancellationToken)
+        public async Task AddNewClosedEvents(CancellationToken cancellationToken)
         {
-            _closedDisasterEventsClient.GetDisasterEventsAsync(cancellationToken)
-                .SelectMany(e => e.Data)
+            var events = await _closedDisasterEventsClient
+                .GetDisasterEventsAsync(cancellationToken)
+                .ConfigureAwait(false);
+            var mappedEvents = events.Data
                 .Select(DisasterEventsMapper.MapDisasterEventDtoToEntity)
-                .Let(mappedEvents => _disasterEventRepository.GetLastDisasterEventByClosedTime()
-                    .Select(async lastEvent =>
-                    {
-                        if (lastEvent == null)
-                        {
-                            mappedEvents.Buffer(5)
-                                .SelectMany(e =>
-                                {
-                                    _disasterEventRepository.AddEvents(e)
-                                        .Subscribe(new Subject<Unit>());
-                                    return e;
-                                });
-                        }
-                        else
-                        {
-                            mappedEvents.Buffer(5)
-                                .SelectMany(e =>
-                                {
-                                    _disasterEventRepository
-                                        .AddEvents(e
-                                            .Where(x => x.Closed > lastEvent.Closed))
-                                        .Subscribe(new Subject<Unit>());
-                                    return e;
-                                });
-                        }
-                    }));
-        return Task.CompletedTask;
+                .ToList();
+            var lastEvent = await _disasterEventRepository
+                .GetLastDisasterEventByClosedTime()
+                .ConfigureAwait(false);
+            if (lastEvent == null)
+            {
+                await _disasterEventRepository.AddEvents(mappedEvents)
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                await _disasterEventRepository
+                    .AddEvents(mappedEvents
+                        .Where(x => x.Closed > lastEvent.Closed).ToList())
+                    .ConfigureAwait(false);
+            }
         }
     }
-
 }
