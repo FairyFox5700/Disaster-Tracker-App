@@ -1,4 +1,6 @@
-﻿using DisasterTrackerApp.Models.ApiModels;
+﻿using System.Reactive.Linq;
+using System.Reactive.Threading.Tasks;
+using DisasterTrackerApp.Models.ApiModels;
 using DisasterTrackerApp.Models.Disaster;
 using DisasterTrackerApp.BL.HttpClients.Contract;
 using DisasterTrackerApp.Models.ApiModels.Base;
@@ -9,10 +11,12 @@ namespace DisasterTrackerApp.BL.HttpClients.Implementation
     public class ClosedDisasterEventsClient : IClosedDisasterEventsClient
     {
         private readonly HttpClient _httpClient;
+
         public ClosedDisasterEventsClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
+
         public async Task<ApiResponse<List<FeatureDto>>> GetDisasterEventsAsync(CancellationToken cancellationToken)
         {
             using var request = new HttpRequestMessage(HttpMethod.Get, _httpClient.BaseAddress);
@@ -24,18 +28,19 @@ namespace DisasterTrackerApp.BL.HttpClients.Implementation
             if (response.IsSuccessStatusCode)
             {
                 var featureCollection = JsonConvert.DeserializeObject<FeatureCollectionDto>(jsonResponse);
-                if (featureCollection != null) 
+                if (featureCollection != null)
                 {
                     return new ApiResponse<List<FeatureDto>>
                     {
-                        StatusCode = (int)response.StatusCode,
+                        StatusCode = (int) response.StatusCode,
                         Data = featureCollection.Features
                     };
                 }
             }
+
             return new ApiResponse<List<FeatureDto>>
             {
-                StatusCode = (int)response.StatusCode,
+                StatusCode = (int) response.StatusCode,
                 Data = new List<FeatureDto>(),
                 ResponseException = new ApiError(ErrorCode.InternalError, jsonResponse ?? ""),
             };

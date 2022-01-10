@@ -1,4 +1,6 @@
 using System.Linq.Expressions;
+using System.Reactive;
+using System.Reactive.Linq;
 using DisasterTrackerApp.Dal.Repositories.Contract;
 using DisasterTrackerApp.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -15,29 +17,40 @@ public class DisasterEventRepository : IDisasterEventRepository
         _context = context;
     }
 
-    public async Task<DisasterEvent?> GetDisasterEventByExternalId(string externalId)
+    public IObservable<DisasterEvent?> GetDisasterEventByExternalId(string externalId)
     {
-        return await _context.DisasterEvent.FirstOrDefaultAsync(e=>e.ExternalApiId==externalId);
+        return Observable.FromAsync(async token => await 
+            _context.DisasterEvent
+                .FirstOrDefaultAsync(e=>e.ExternalApiId==externalId, 
+                    cancellationToken: token)
+        );
     }
 
-    public async Task<List<DisasterEvent>> GetDisasterEventsFiltered(Expression<Func<DisasterEvent,bool>> predicate)
+    public IObservable<List<DisasterEvent>> GetDisasterEventsFiltered(
+        Expression<Func<DisasterEvent, bool>> predicate)
     {
-        return await _context.DisasterEvent.Where(predicate).ToListAsync();
+        return Observable.FromAsync(async token =>   await 
+            _context.DisasterEvent
+                .Where(predicate)
+            .ToListAsync(cancellationToken: token));
     }
     public async Task<DisasterEvent?> GetLastDisasterEventByClosedTime() 
     {
-        return await _context.DisasterEvent.OrderByDescending(x => x.Closed).FirstOrDefaultAsync().ConfigureAwait(false);
+        return await _context.DisasterEvent
+            .OrderByDescending(x => x.Closed)
+            .FirstOrDefaultAsync();
     }
     public async Task AddEvents(IEnumerable<DisasterEvent> disasterEvents)
     {
-        await _context.AddRangeAsync(disasterEvents).ConfigureAwait(false);
-        await _context.SaveChangesAsync().ConfigureAwait(false);
+        await _context.AddRangeAsync(disasterEvents); 
+        await _context.SaveChangesAsync();
     }
-    public async Task<List<Tuple<CalendarEvent,DisasterEvent>>> GetDisasterEventsByCalendarInRadius(Expression<Func<CalendarEvent, bool>>calendarPredicate, int distance) 
+    public IObservable<List<Tuple<CalendarEvent, DisasterEvent>>> GetDisasterEventsByCalendarInRadius(Expression<Func<CalendarEvent, bool>>calendarPredicate, int distance) 
     {
-        return await (from c in _context.CalendarEvents.Where(calendarPredicate)
+        return Observable.FromAsync(async ct =>
+            await (from c in _context.CalendarEvents.Where(calendarPredicate)
                 from d in _context.DisasterEvent.Where(x => x.Geometry.Distance(c.Coordinates) <= distance)
-                select new Tuple<CalendarEvent, DisasterEvent>(c, d)).ToListAsync();
+                select new Tuple<CalendarEvent, DisasterEvent>(c, d)).ToListAsync(ct));
         
     }
 }

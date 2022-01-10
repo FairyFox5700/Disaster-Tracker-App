@@ -6,6 +6,6 @@ namespace DisasterTrackerApp.BL.HttpClients.Contract
 {
     public interface IClosedDisasterEventsClient
     {
-        public Task<ApiResponse<List<FeatureDto>>> GetDisasterEventsAsync(CancellationToken cancellationToken);
+        Task<ApiResponse<List<FeatureDto>>> GetDisasterEventsAsync(CancellationToken cancellationToken);
     }
 }

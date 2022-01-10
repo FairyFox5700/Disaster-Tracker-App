@@ -1,4 +1,6 @@
 using System.Linq.Expressions;
+using System.Reactive.Linq;
+using System.Reactive.Threading.Tasks;
 using DisasterTrackerApp.Dal.Repositories.Contract;
 using DisasterTrackerApp.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -13,19 +15,31 @@ public class CalendarEventsRepository: ICalendarEventsRepository
     {
         _context = context;
     }
-    public async Task<List<CalendarEvent>> GetFilteredAsync(Expression<Func<CalendarEvent, bool>> predicate)
+    public Task<List<CalendarEvent>> GetFilteredAsync(Expression<Func<CalendarEvent, bool>> predicate)
     {
-        return await _context.CalendarEvents
-            .Where(predicate)
-            .ToListAsync();
+        return
+            _context.CalendarEvents
+                .Where(predicate)
+                .ToListAsync();
     }
 
-    public async Task<List<CalendarEvent>> GetFilteredWithUserIdAsync(Guid userId, Expression<Func<CalendarEvent, bool>> predicate)
+    public IObservable<List<CalendarEvent>> GetFilteredStreamAsync(Expression<Func<CalendarEvent, bool>> predicate)
     {
-        return await _context.CalendarEvents
+        return
+            _context.CalendarEvents
+                .Where(predicate)
+                .ToListAsync()
+                .ToObservable();
+    }
+    
+    public IObservable<List<CalendarEvent>> GetFilteredWithUserIdAsync(Guid userId,
+        Expression<Func<CalendarEvent, bool>> predicate)
+    {
+        return Observable.FromAsync(async ct =>
+            await _context.CalendarEvents
             .Where(predicate)
             .Where(ev => ev.Calendar.UserId == userId)
-            .ToListAsync();
+            .ToListAsync(cancellationToken: ct));
     }
 
     public async Task SaveRangeAsync(IEnumerable<CalendarEvent> events)

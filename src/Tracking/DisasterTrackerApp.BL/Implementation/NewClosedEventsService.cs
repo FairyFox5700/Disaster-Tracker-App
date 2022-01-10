@@ -1,8 +1,13 @@
-﻿using DisasterTrackerApp.Dal.Repositories.Contract;
+﻿using System.Reactive;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
+using System.Reactive.Threading.Tasks;
+using DisasterTrackerApp.Dal.Repositories.Contract;
 using DisasterTrackerApp.BL.Contract;
 using DisasterTrackerApp.BL.Mappers;
 using DisasterTrackerApp.BL.HttpClients.Contract;
 using DisasterTrackerApp.BL.Mappers.Implementation;
+using DisasterTrackerApp.Entities;
 
 namespace DisasterTrackerApp.BL.Implementation
 {
@@ -10,12 +15,14 @@ namespace DisasterTrackerApp.BL.Implementation
     {
         private readonly IClosedDisasterEventsClient _closedDisasterEventsClient;
         private readonly IDisasterEventRepository _disasterEventRepository;
+
         public NewClosedEventsService(IClosedDisasterEventsClient closedDisasterEventsClient,
             IDisasterEventRepository disasterEventRepository)
         {
             _closedDisasterEventsClient = closedDisasterEventsClient;
             _disasterEventRepository = disasterEventRepository;
         }
+
         public async Task AddNewClosedEvents(CancellationToken cancellationToken)
         {
             var events = await _closedDisasterEventsClient
@@ -41,5 +48,4 @@ namespace DisasterTrackerApp.BL.Implementation
             }
         }
     }
-
 }
