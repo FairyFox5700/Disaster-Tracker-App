@@ -1,3 +1,5 @@
+using System.Collections.Concurrent;
+using System.Collections.Immutable;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using DisasterTrackerApp.BL.Contract;
@@ -12,6 +14,7 @@ public class WarningController : ControllerBase
     private readonly IWarningService _warningService;
     private readonly IGoogleCalendarService _calendarService;
 
+    private readonly ConcurrentDictionary<string, WarningDto> _concurrentDictionary =new ();
     public WarningController(IWarningService warningService, IGoogleCalendarService calendarService)
     {
         _warningService = warningService;
@@ -23,17 +26,23 @@ public class WarningController : ControllerBase
     {
         var response = Response;
         response.ContentType ="text/event-stream; charset=utf-8;";
+        response.Headers.Connection = "keep-alive";
+        response.Headers.CacheControl = "no-cache";
         
-        await _warningService.GetWarningEvents(warningRequest, cancellationToken)
-            .DefaultIfEmpty(new WarningDto(default, default, default, default, default))
+        await Observable.Interval(TimeSpan.FromSeconds(10))
+            .SelectMany(_ => _warningService.GetWarningEvents(warningRequest, cancellationToken))
             .SelectMany(async e =>
             {
+                if (_concurrentDictionary.ContainsKey($"{e.DisasterId}{e.CalendarId}")) return e;
                 await response.WriteAsync($"{JsonConvert.SerializeObject(e)}\r\r",
                     cancellationToken: cancellationToken);
                 await response.Body.FlushAsync(cancellationToken);
                 return e;
             })
-            .ToTask(cancellationToken);
+            .Do(p => _concurrentDictionary.AddOrUpdate($"{p.DisasterId}{p.CalendarId}", p, (s, c) => c))
+            .Do(e =>Console.WriteLine($"------CURRENT COUNT IN DICT:{_concurrentDictionary.Count}"))
+            .Replay(1)
+            .RefCount();
         
         await _calendarService.StopWatchEvents(warningRequest.UserId);
     }
