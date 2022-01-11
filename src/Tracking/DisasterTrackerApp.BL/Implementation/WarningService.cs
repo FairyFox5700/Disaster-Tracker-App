@@ -19,7 +19,7 @@ namespace DisasterTrackerApp.BL.Implementation
         private readonly IRedisDisasterEventsRepository _redisDisasterEventsRepository;
         private readonly ICalendarEventsRepository _calendarEventsRepository;
         private readonly IDisasterEventRepository _disasterEventRepository;
-        private const int MaxRadiusInMeters = 500000;
+        private const int MaxRadiusInMeters = 100000;
 
         public WarningService(IDisasterEventsClient disasterEventsClient,
             IRedisDisasterEventsRepository redisDisasterEventsRepository,
