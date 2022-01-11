@@ -1,5 +1,4 @@
 using System.Collections.Concurrent;
-using System.Collections.Immutable;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using DisasterTrackerApp.BL.Contract;
@@ -12,13 +11,11 @@ namespace DisasterTrackerApp.WebApi.Controllers;
 public class WarningController : ControllerBase
 {
     private readonly IWarningService _warningService;
-    private readonly IGoogleCalendarService _calendarService;
 
     private readonly ConcurrentDictionary<string, WarningDto> _concurrentDictionary =new ();
-    public WarningController(IWarningService warningService, IGoogleCalendarService calendarService)
+    public WarningController(IWarningService warningService)
     {
         _warningService = warningService;
-        _calendarService = calendarService;
     }
     
     [HttpGet("/receive-warnings")]
@@ -44,7 +41,8 @@ public class WarningController : ControllerBase
             .Replay(1)
             .RefCount();
         
-        await _calendarService.StopWatchEvents(warningRequest.UserId);
+            //await _calendarService.StopWatchEvents(warningRequest.UserId);
+            // commented for demo purposes
     }
     [HttpGet("/receive-statisticwarnings")]
     public async Task GetStatisticsWarnings(WarningRequest warningRequest, CancellationToken cancellationToken = default)
