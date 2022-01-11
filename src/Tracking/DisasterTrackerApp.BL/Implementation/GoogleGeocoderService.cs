@@ -21,6 +21,6 @@ public class GoogleGeocoderService : IGoogleGeocoderService
         
         return addressCoordinates == null 
             ? default 
-            : new Point(addressCoordinates.Latitude, addressCoordinates.Longitude);
+            : new Point(addressCoordinates.Longitude, addressCoordinates.Latitude);
     }
 }
