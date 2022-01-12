@@ -23,16 +23,13 @@ Url: https:localhost:7200/hangfire
 
 ## Techologies used:
 
-### 1.Redis - In-memory  processing and  cache <img src="https://user-images.githubusercontent.com/46414904/149185243-cc4bc418-cabc-4483-a7db-32920f87f2a0.png" width=10% height=10%>
-### 2. Hangfire - Scheduled long-running  jobs
+### 1. <img src="https://user-images.githubusercontent.com/46414904/149185243-cc4bc418-cabc-4483-a7db-32920f87f2a0.png" width=10% height=10%> Redis - In-memory  processing and  cache 
+### 2. <img src="https://user-images.githubusercontent.com/46414904/149185307-bde69b96-1674-435e-be3e-3163debf72e6.png" width=10% height=10%> Hangfire - Scheduled long-running  jobs
 
-<img src="https://user-images.githubusercontent.com/46414904/149185307-bde69b96-1674-435e-be3e-3163debf72e6.png" width=20% height=20%>
-### 3. PostGIS - Spatial data types for  PostgreSQL
+### 3. <img src="https://user-images.githubusercontent.com/46414904/149185350-178254b2-c209-49a6-b04a-f84bebdb79d6.png" width=10% height=10%> PostGIS - Spatial data types for  PostgreSQL
 
-<img src="https://user-images.githubusercontent.com/46414904/149185350-178254b2-c209-49a6-b04a-f84bebdb79d6.png" width=20% height=20%>
-### 4.RX.NET - Reactive extensions
+### 4. <img src="https://user-images.githubusercontent.com/46414904/149185460-a59fe0f4-5c4b-461e-865e-6d6cceb46e6a.png" width=10% height=10%> RX.NET - Reactive extensions
 
-<img src="https://user-images.githubusercontent.com/46414904/149185460-a59fe0f4-5c4b-461e-865e-6d6cceb46e6a.png" width=20% height=20%>
 ### 5. NgRock - Ngrok exposes local  servers behind NATs and  firewalls to the public  internet over secure  tunnels.
 
 <img src="https://user-images.githubusercontent.com/46414904/149185522-90015143-02c0-4129-aeca-0f3e0c6769eb.png" width=20% height=20%>
