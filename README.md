@@ -3,7 +3,8 @@ Disaster-Tracker-App-2022
 
 ### Implemented by PHAOND team:
 PHAOND: People who  are afraid of natural disasters!
-<img src="https://user-images.githubusercontent.com/46414904/149190082-b4975aa1-3128-487c-b24a-b737d04cda05.png" width=10% height=10%>
+
+<img src="https://user-images.githubusercontent.com/46414904/149190082-b4975aa1-3128-487c-b24a-b737d04cda05.png" width=30% height=30%>
 
 ## Branching strategy
 _________________________________________
