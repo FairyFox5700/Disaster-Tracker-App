@@ -28,7 +28,7 @@ In-memory  processing and  cache
 ![image](https://user-images.githubusercontent.com/46414904/149185243-cc4bc418-cabc-4483-a7db-32920f87f2a0.png)
 ### 2. Hangfire
 Scheduled long-running  jobs
-![image](https://user-images.githubusercontent.com/46414904/149185307-bde69b96-1674-435e-be3e-3163debf72e6.png)
+<img src="https://user-images.githubusercontent.com/46414904/149185307-bde69b96-1674-435e-be3e-3163debf72e6.png" width=20% height=20%>
 ### 3. PostGIS
 Spatial data types for  PostgreSQL
 ![image](https://user-images.githubusercontent.com/46414904/149185350-178254b2-c209-49a6-b04a-f84bebdb79d6.png)
