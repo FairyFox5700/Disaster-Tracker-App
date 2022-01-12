@@ -1,10 +1,9 @@
 # Disaster-Tracker-App [![.NET](https://github.com/FairyFox5700/Disaster-Tracker-App/actions/workflows/dotnet.yml/badge.svg)](https://github.com/FairyFox5700/Disaster-Tracker-App/actions/workflows/dotnet.yml)
 Disaster-Tracker-App-2022
 
-### Implemented by PHAOND team:
+### Implemented by PHAOND team <img src=https://user-images.githubusercontent.com/46414904/149190308-988ced3a-cd9d-4978-aaac-10d3046ef2c5.png" width=10% height=10%>
+  
 PHAOND: People who  are afraid of natural disasters!
-
-<img src="https://user-images.githubusercontent.com/46414904/149190082-b4975aa1-3128-487c-b24a-b737d04cda05.png" width=30% height=30%>
 
 ## Branching strategy
 _________________________________________
