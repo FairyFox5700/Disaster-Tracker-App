@@ -1,5 +1,9 @@
 # Disaster-Tracker-App [![.NET](https://github.com/FairyFox5700/Disaster-Tracker-App/actions/workflows/dotnet.yml/badge.svg)](https://github.com/FairyFox5700/Disaster-Tracker-App/actions/workflows/dotnet.yml)
-Disaster-Tracker-App-2021
+Disaster-Tracker-App-2022
+
+### Implemented by PHAOND team:
+
+<img src="https://user-images.githubusercontent.com/46414904/149189607-4dfa52e2-a23b-46a1-b2c8-857bf1bf635d.png" width=10% height=10%>
 
 ## Branching strategy
 _________________________________________
@@ -41,6 +45,14 @@ The Geocoding API is a service that provides geocoding and  reverse geocoding of
 An API that provided a curated list of natural events and  provided a way to link those events to event-related NRT  image layers
 ### 4.Google OAuth 2.0 API <img src="https://user-images.githubusercontent.com/46414904/149186151-6d26948c-3b6f-4806-8b99-2422ee3dc37b.png" width=10% height=10%> 
 Google APIs use the OAuth 2.0 protocol for authentication  and authorization. Google supports common OAuth 2.0  scenarios such as those for web server, client-side, installed,  and limited-input device applications.
+
+### Google auth sequence flow
+![image](https://user-images.githubusercontent.com/46414904/149189472-5ae03f2e-b1f5-4830-af63-db238a4b5911.png)
+
+
+### Auth sequence flow from user perspective
+![image](https://user-images.githubusercontent.com/46414904/149189505-7859b6a0-b1e7-43fa-bf5b-e90a0d4426cf.png)
+
 
 
 
